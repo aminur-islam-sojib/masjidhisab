@@ -1,32 +1,40 @@
 "use server";
 import { signIn } from "@/lib/auth/auth";
- 
+
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { User } from "@/lib/db/Model/User";
-import { LoginInput, loginSchema, RegisterInput, registerSchema } from "@/features/Auth/schema";
+import {
+  LoginInput,
+  loginSchema,
+  RegisterInput,
+  registerSchema,
+} from "@/features/Auth/schema";
 import connectDB from "@/lib/mongoose";
 
 export async function loginAction(data: LoginInput) {
-  const validated = loginSchema.safeParse(data);
-  if (!validated.success) return { error: "Invalid input data" };
-
   try {
+    // signIn automatically redirects on success if redirectTo is provided
     await signIn("credentials", {
-      email: validated.data.email,
-      password: validated.data.password,
-      redirect: false, // Handle redirect client-side for smoother UX
+      email: data.email,
+      password: data.password,
+      redirectTo: "/dashboard",
     });
-    return { success: true };
   } catch (error) {
+    // 1. Catch specific Auth.js errors to return to the client
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credentials." };
+          return { error: "Invalid email or security key." };
+        case "AccessDenied":
+          return { error: "You do not have access to this system." };
         default:
-          return { error: "Something went wrong." };
+          return { error: "An unexpected authentication error occurred." };
       }
     }
+
+    // 2. CRITICAL: Re-throw the error if it is not an AuthError!
+    // This allows Next.js to process the NEXT_REDIRECT thrown by a successful signIn.
     throw error;
   }
 }

@@ -1,7 +1,7 @@
 import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
- 
+
 import { User } from "../db/Model/User";
 import connectDB from "../mongoose";
 
@@ -19,7 +19,6 @@ declare module "next-auth" {
     mosqueId?: string | null;
   }
 }
-
 
 export const authConfig = {
   pages: {
