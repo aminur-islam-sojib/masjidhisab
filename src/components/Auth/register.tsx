@@ -1,22 +1,24 @@
-import { BrandPanel, BrandPanelMobile } from "@/components/Auth/BrandPanel";
-import { LoginForm } from "@/components/Auth/login-form";
+import { BrandPanel, BrandPanelMobile } from "./BrandPanel";
+import { RegisterForm } from "./register-form";
 
 export const metadata = {
-  title: "Log in — MasjidHisab",
-  description: "Log in to your mosque's workspace.",
+  title: "Create your account — MasjidHisab",
+  description: "Set up your mosque's workspace in a few minutes.",
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="flex min-h-screen flex-col bg-white lg:flex-row">
       <BrandPanelMobile />
 
+      {/* Left: brand panel (desktop only) */}
       <div className="lg:w-[42%] lg:min-h-screen">
         <BrandPanel />
       </div>
 
+      {/* Right: form */}
       <div className="flex flex-1 items-center justify-center bg-sage-50/40 px-6 py-12 lg:bg-white lg:px-16">
-        <LoginForm />
+        <RegisterForm />
       </div>
     </div>
   );

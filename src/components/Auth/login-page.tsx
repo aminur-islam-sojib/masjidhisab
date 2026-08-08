@@ -1,5 +1,7 @@
-import { BrandPanel, BrandPanelMobile } from "@/components/Auth/BrandPanel";
-import { LoginForm } from "@/components/Auth/login-form";
+import { BrandPanel, BrandPanelMobile } from "./BrandPanel";
+import { LoginForm } from "./login-form";
+
+ 
 
 export const metadata = {
   title: "Log in — MasjidHisab",
