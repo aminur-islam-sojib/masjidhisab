@@ -5,11 +5,30 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-sage-50: #F6FFF8;
+  --color-sage-100: #E7F0EA;
+  --color-sage-200: #CFE3D6;
+  --color-sage-300: #A9C4B4;
+  --color-sage-400: #6B9080;
+  --color-sage-500: #598872;
+  --color-sage-600: #4F7A5C;
+  --color-sage-700: #3D6047;
+
+  --color-ink: #2D3436;
+  --color-ink-soft: #5B6462;
+  --color-ink-faint: #8A928F;
+
+  --color-gold-100: #F4EBD6;
+  --color-gold-400: #C9A15C;
+  --color-gold-500: #B08B45;
+
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --shadow-soft: 0 2px 10px -2px rgba(45,52,54,0.06), 0 12px 32px -12px rgba(79,122,92,0.16);
+  --shadow-card: 0 1px 2px rgba(45,52,54,0.04), 0 8px 24px -8px rgba(79,122,92,0.14);
 }
 
 @media (prefers-color-scheme: dark) {

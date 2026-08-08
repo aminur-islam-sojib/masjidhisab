@@ -1,0 +1,67 @@
+/**
+ * home.css
+ * -----------------------------------------------------------------------
+ * Scoped styles for this homepage ONLY. No @tailwind directives here —
+ * your app's existing globals.css already has those.
+ *
+ * Everything is namespaced under `.home-page` so it never overrides your
+ * app's existing theme (--background, --card, --primary, etc). Because
+ * CSS custom properties cascade, anything rendered inside
+ * <div className="home-page"> picks these up automatically; anything
+ * outside it is untouched.
+ */
+
+.home-page {
+  --background: 100 60% 98%;      /* #FAFDF9 */
+  --foreground: 180 4% 18%;       /* #2D3436 */
+
+  --card: 0 0% 100%;
+  --card-foreground: 180 4% 18%;
+
+  --primary: 150 19% 40%;         /* ~#4F7A5C */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 138 24% 92%;       /* ~#E7F0EA */
+  --secondary-foreground: 150 19% 30%;
+
+  --muted: 138 24% 95%;
+  --muted-foreground: 180 3% 40%; /* ~#5B6462 */
+
+  --accent: 138 24% 92%;
+  --accent-foreground: 150 19% 28%;
+
+  --border: 138 20% 89%;          /* ~#CFE3D6 */
+  --input: 138 20% 89%;
+  --ring: 150 19% 40%;
+
+  --radius: 1rem;
+
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.home-page :focus-visible {
+  outline: 2px solid #4f7a5c;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.home-page ::selection {
+  background: #cfe3d6;
+  color: #3d6047;
+}
+
+.home-page .tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Perforated "passbook stub" left edge on the hero ledger card */
+.home-page .stub-edge {
+  background-image: radial-gradient(
+    circle at 0 8px,
+    transparent 5px,
+    #f6fff8 5.5px
+  );
+  background-size: 100% 20px;
+  background-repeat: repeat-y;
+}
