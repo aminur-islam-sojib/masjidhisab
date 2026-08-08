@@ -48,7 +48,7 @@ export function DashboardShell({
             </button>
 
             <div>
-              <h2 className="font-heading text-base font-semibold text-ink truncate max-w-[180px] sm:max-w-none">
+              <h2 className="font-heading text-base font-semibold text-ink truncate max-w-45 sm:max-w-none">
                 {mosqueName}
               </h2>
               {mosqueAddress && (

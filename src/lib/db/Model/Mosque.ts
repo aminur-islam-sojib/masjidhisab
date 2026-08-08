@@ -45,6 +45,7 @@ export interface IMosque extends Document {
     currency: string;
     fiscalYearStart: string;
     zakatNisabAutoFetch: boolean;
+    receiptCounter: number;
     donationAccounts: {
       mobileBanking: Array<{ provider: string; number: string }>;
       bankDetails?: {
@@ -127,6 +128,7 @@ const MosqueSchema: Schema<IMosque> = new Schema(
       currency: { type: String, default: "BDT" },
       fiscalYearStart: { type: String, default: "July" },
       zakatNisabAutoFetch: { type: Boolean, default: false },
+      receiptCounter: { type: Number, default: 1000 },
       donationAccounts: {
         mobileBanking: [
           {

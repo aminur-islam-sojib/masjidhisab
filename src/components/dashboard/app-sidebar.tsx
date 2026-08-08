@@ -1,40 +1,12 @@
-// components/dashboard/app-sidebar.tsx
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  Wallet,
-  Clock,
-  Users,
-  Bell,
-  Settings,
-  MoonStar,
-  ChevronRight,
-  LogOut,
-  Building2,
-  X,
-} from "lucide-react";
+import { MoonStar, ChevronRight, LogOut, Building2, X } from "lucide-react";
 import { signOut } from "next-auth/react";
-
-const navigationItems = [
-  { title: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Finance & Accounts", href: "/dashboard/finance", icon: Wallet },
-  { title: "Prayer Schedule", href: "/dashboard/prayers", icon: Clock },
-  { title: "Committee & Members", href: "/dashboard/members", icon: Users },
-  { title: "Notices & Events", href: "/dashboard/notices", icon: Bell },
-  { title: "Settings", href: "/dashboard/settings", icon: Settings },
-];
-
-interface AppSidebarProps {
-  mosqueName?: string;
-  userName?: string;
-  userEmail?: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { navigationItems } from "@/lib/dashboard-navigation";
+import { AppSidebarProps } from "@/types/dashboard";
 
 export function AppSidebar({
   mosqueName = "My Mosque",
