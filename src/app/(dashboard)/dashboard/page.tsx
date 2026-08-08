@@ -1,26 +1,41 @@
-// app/dashboard/page.tsx
-import { auth } from "@/lib/auth/auth";
-import { redirect } from "next/navigation";
+import { getMyMosque } from "@/features/Mosque/queries";
 
 export default async function DashboardPage() {
-  // Grab the session directly from Auth.js v5
-  const session = await auth();
+  const mosque = await getMyMosque();
 
-  // 1. Kick them to login if they aren't authenticated at all
-  if (!session) {
-    redirect("/login");
-  }
-
-  // 2. Kick them to create-mosque if they don't have a mosqueId
-  if (!session.user.mosqueId) {
-    redirect("/create-mosque");
-  }
-
-  // 3. If they pass both checks, load the dashboard!
   return (
-    <div>
-      <div>Dashboard Welcome back, {session.user.name}</div>
-      <div>Your Mosque ID is: {session.user.mosqueId}</div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-heading text-2xl font-bold text-ink">
+          Welcome to {mosque?.name}
+        </h1>
+        <p className="text-sm text-ink-soft">
+          Here is an overview of your mosque&apos;s daily operations and
+          finances.
+        </p>
+      </div>
+
+      {/* Metric Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="p-5 rounded-2xl bg-white border border-sage-200/80 shadow-[var(--shadow-card)]">
+          <p className="text-xs text-ink-faint font-medium">
+            Monthly Collections
+          </p>
+          <p className="font-heading text-2xl font-bold text-ink mt-1">৳0.00</p>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-white border border-sage-200/80 shadow-[var(--shadow-card)]">
+          <p className="text-xs text-ink-faint font-medium">Total Expenses</p>
+          <p className="font-heading text-2xl font-bold text-ink mt-1">৳0.00</p>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-white border border-sage-200/80 shadow-[var(--shadow-card)]">
+          <p className="text-xs text-ink-faint font-medium">Musalli Capacity</p>
+          <p className="font-heading text-2xl font-bold text-ink mt-1">
+            {mosque?.capacity || "N/A"}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

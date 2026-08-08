@@ -121,7 +121,7 @@ export function CreateMosqueForm() {
       </div>
 
       {/* Main Card */}
-      <div className="bg-white border border-sage-200/80 rounded-2xl p-6 sm:p-8 shadow-[var(--shadow-card)]">
+      <div className="bg-white border border-sage-200/80 rounded-2xl p-6 sm:p-8 shadow-(--shadow-card)">
         {serverError && (
           <div className="mb-6 rounded-xl border border-gold-400/50 bg-gold-100 px-4 py-3 text-sm text-ink flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-gold-500 shrink-0" />
