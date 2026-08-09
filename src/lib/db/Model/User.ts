@@ -15,29 +15,31 @@ const UserSchema = new Schema<IUser>(
   {
     email: {
       type: String,
-      required: true,
+      required: [true, "Email address is required"],
       unique: true,
       lowercase: true,
       trim: true,
     },
-    password: { type: String, select: false }, // Excluded by default for security
-    name: { type: String, required: true },
+    password: { 
+      type: String, 
+      select: false // Excellent for security
+    }, 
+    name: { 
+      type: String, 
+      required: [true, "Full name is required"] 
+    },
     role: {
       type: String,
-      enum: Object.values(UserRole),
+      enum: Object.values(UserRole), // This strictly enforces your 4 roles
       default: UserRole.MEMBER,
     },
     mosqueId: {
       type: Schema.Types.ObjectId,
       ref: "Mosque",
       default: null,
-      // Temporarily set to false to allow registration without a mosque.
-      // You can implement the logic later to require this during onboarding.
-      required: false,
-      //   required: function() {
-      //     // Super Admins don't belong to a specific mosque
-      //     return this.role !== UserRole.SUPER_ADMIN;
-      //   }
+      // Keep this false. We will enforce mosqueId requirements in the API/Server Actions
+      // so users can register first, and then create their mosque in step 2.
+      required: false, 
     },
   },
   { timestamps: true },
@@ -46,5 +48,4 @@ const UserSchema = new Schema<IUser>(
 // Ensure indexing for multi-tenant query performance
 UserSchema.index({ mosqueId: 1, email: 1 });
 
-export const User =
-  mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
+export const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
