@@ -61,7 +61,7 @@ export default async function MosquePublicPage({
             className="object-cover opacity-60"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-sage-700/90 via-sage-700/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-sage-700/90 via-sage-700/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 max-w-5xl mx-auto px-6 pb-8 flex items-end justify-between flex-wrap gap-4">
           <div>
             <h1 className="font-heading text-3xl sm:text-4xl text-white">
@@ -84,7 +84,7 @@ export default async function MosquePublicPage({
         <div className="lg:col-span-2 space-y-10">
           {/* Prayer times */}
           {mosque.prayerSettings && (
-            <section className="bg-white rounded-2xl border border-sage-200 p-6 shadow-[0_1px_2px_rgba(45,52,54,0.04),0_8px_24px_-8px_rgba(79,122,92,0.14)]">
+            <section className="bg-white rounded-2xl border border-sage-200 p-6 shadow-card">
               <h2 className="font-heading text-xl text-ink mb-4 flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-sage-500" /> Prayer Times
               </h2>
