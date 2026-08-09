@@ -62,7 +62,7 @@ export default function SettingsPage({ mosqueData }: SettingsPageProps) {
       <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
         {/* 3. Pass mosqueData into initialData */}
         {activeTab === "general" && <GeneralSettingsForm initialData={mosqueData} />}
-        {activeTab === "finance" && <FinanceSettingsForm />}
+        {activeTab === "finance" && <FinanceSettingsForm initialData={mosqueData}/>}
         {activeTab === "prayers" && <PrayerSettingsForm />}
         {activeTab === "team" && <TeamSettingsList />}
       </div>

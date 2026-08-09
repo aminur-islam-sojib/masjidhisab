@@ -7,6 +7,31 @@ export interface MosqueAddress {
   postalCode?: string;
 }
 
+// types/mosque.ts
+export interface MobileBankingAccount {
+  _id?: string;
+  provider: string;
+  number?: string;        // <--- Matches your DB field JSON
+  accountNumber?: string; // Fallback
+}
+
+export interface DonationAccounts {
+  mobileBanking: MobileBankingAccount[];
+  bankDetails: {
+    bankName?: string;
+    accountName?: string;
+    accountNumber?: string;
+    routing?: string;
+    routingNumber?: string;
+  };
+}
+
+export interface FinanceSettings {
+  currency: string;
+  fiscalYearStart: string;
+  zakatNisabAutoFetch: boolean;
+  donationAccounts: DonationAccounts;
+}
 export interface MosqueContact {
   phone?: string;
   email?: string | null;
@@ -19,20 +44,7 @@ export interface PrayerSettings {
   timezone: string;
 }
 
-export interface DonationAccounts {
-  mobileBanking: Array<{
-    provider?: string;
-    accountNumber?: string;
-    accountType?: string;
-  }>;
-  bankDetails: {
-    bankName?: string;
-    accountName?: string;
-    accountNumber?: string;
-    branchName?: string;
-    routingNumber?: string;
-  };
-}
+ 
 
 export interface FinanceSettings {
   currency: string;
