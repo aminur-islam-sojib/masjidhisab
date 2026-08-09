@@ -162,7 +162,14 @@ const MosqueSchema: Schema<IMosque> = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
+);
+// in Mosque.ts, after schema definition, before model export
+MosqueSchema.index({ status: 1, createdAt: -1 }); // default sort path
+MosqueSchema.index({ status: 1, "address.city": 1 }); // city filter path
+MosqueSchema.index(
+  { name: "text", "address.city": "text", "address.district": "text" },
+  { weights: { name: 10, "address.city": 5, "address.district": 3 } },
 );
 
 // ==========================================
