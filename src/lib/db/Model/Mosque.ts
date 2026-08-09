@@ -34,6 +34,7 @@ export interface IMosque extends Document {
   imamName?: string;
   capacity?: number;
   logoUrl?: string;
+  coverUrl?: string; // <-- Added
 
   prayerSettings: {
     calculationMethod: string;
@@ -74,13 +75,14 @@ export interface IMosque extends Document {
 const MosqueSchema: Schema<IMosque> = new Schema(
   {
     name: { type: String, required: true, trim: true },
+
     slug: {
       type: String,
       required: true,
       unique: true,
       trim: true,
       lowercase: true,
-      index: true, // Indexed for fast public URL lookups
+      index: true,
     },
     status: {
       type: String,
@@ -114,6 +116,7 @@ const MosqueSchema: Schema<IMosque> = new Schema(
     imamName: { type: String, trim: true },
     capacity: { type: Number },
     logoUrl: { type: String, trim: true },
+    coverUrl: { type: String, trim: true }, // <-- Added
 
     prayerSettings: {
       calculationMethod: {
@@ -132,7 +135,7 @@ const MosqueSchema: Schema<IMosque> = new Schema(
       donationAccounts: {
         mobileBanking: [
           {
-            provider: { type: String, trim: true }, // e.g., 'bKash', 'Nagad'
+            provider: { type: String, trim: true },
             number: { type: String, trim: true },
           },
         ],
@@ -159,12 +162,11 @@ const MosqueSchema: Schema<IMosque> = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 // ==========================================
 // 3. Model Export
 // ==========================================
-// Prevent Next.js HMR (Hot Module Replacement) from redefining the model
 export const Mosque: Model<IMosque> =
   mongoose.models.Mosque || mongoose.model<IMosque>("Mosque", MosqueSchema);

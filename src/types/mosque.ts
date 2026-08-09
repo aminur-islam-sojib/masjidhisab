@@ -60,6 +60,8 @@ export interface MosqueSubscription {
 export interface IMosque {
   _id: string;
   name: string;
+  logoUrl?: string;      
+  coverUrl?: string;
   slug: string;
   status: "ACTIVE" | "INACTIVE" | "SUSPENDED" | string;
   address: MosqueAddress;

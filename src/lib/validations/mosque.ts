@@ -3,7 +3,10 @@ import { z } from "zod";
 
 export const updateMosqueSchema = z.object({
   name: z.string().min(2, "Mosque name is required").trim(),
-  
+  // Image URL validations
+  logoUrl: z.string().url("Invalid URL").nullish().or(z.literal("")),   
+  coverUrl: z.string().url("Invalid URL").nullish().or(z.literal("")),
+     
   address: z.object({
     // Changed to .nullish() to accept both null from DB and undefined
     area: z.string().nullish().transform((val) => (val ? val.trim() : "")),
