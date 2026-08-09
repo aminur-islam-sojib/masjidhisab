@@ -1,10 +1,17 @@
-// app/dashboard/settings/_components/general-settings-form.tsx
+// app/dashboard/settings/components/general-settings-form.tsx
 "use client";
 
 import { useState, useTransition } from "react";
 import { updateMosqueSettingsAction } from "@/lib/actions/mosque";
 
-export default function GeneralSettingsForm() {
+// 1. Define an interface for the incoming real data
+import { IMosque } from "@/types/mosque";
+
+interface GeneralSettingsFormProps {
+  initialData?: IMosque | null;
+}
+// 2. Accept the initialData prop
+export default function GeneralSettingsForm({ initialData }: GeneralSettingsFormProps) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{
     success: boolean;
@@ -51,7 +58,11 @@ export default function GeneralSettingsForm() {
 
       {message && (
         <div
-          className={`p-3 rounded-lg text-sm ${message.success ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-rose-50 text-rose-700 border border-rose-200"}`}
+          className={`p-3 rounded-lg text-sm ${
+            message.success
+              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+              : "bg-rose-50 text-rose-700 border border-rose-200"
+          }`}
         >
           {message.text}
         </div>
@@ -62,10 +73,11 @@ export default function GeneralSettingsForm() {
           <label className="block text-sm font-medium text-slate-700 mb-1">
             Mosque Name
           </label>
+          {/* 3. Replace hardcoded strings with initialData fallbacks */}
           <input
             name="name"
             required
-            defaultValue="Central Jamia Mosque"
+            defaultValue={initialData?.name || ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -75,7 +87,7 @@ export default function GeneralSettingsForm() {
           </label>
           <input
             name="imamName"
-            defaultValue="Maulana Ahmed"
+            defaultValue={initialData?.imamName || ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -86,7 +98,7 @@ export default function GeneralSettingsForm() {
           <input
             name="city"
             required
-            defaultValue="Dhaka"
+            defaultValue={initialData?.address?.city || ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -97,7 +109,7 @@ export default function GeneralSettingsForm() {
           <input
             name="district"
             required
-            defaultValue="Dhaka"
+            defaultValue={initialData?.address?.district || ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -107,7 +119,7 @@ export default function GeneralSettingsForm() {
           </label>
           <input
             name="area"
-            defaultValue="Bashundhara R/A"
+            defaultValue={initialData?.address?.area || ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -118,7 +130,7 @@ export default function GeneralSettingsForm() {
           <input
             name="capacity"
             type="number"
-            defaultValue="1200"
+            defaultValue={initialData?.capacity || ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
