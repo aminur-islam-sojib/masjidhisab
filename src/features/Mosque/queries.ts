@@ -75,7 +75,10 @@ async function fetchExploreMosques(
       { "address.district": regex },
     ];
   }
-
+  if (search) {
+    const prefix = new RegExp(`^${escapeRegex(search.toLowerCase())}`);
+    filter.searchTokens = prefix;
+  }
   if (city) {
     filter["address.city"] = new RegExp(`^${escapeRegex(city)}$`, "i");
   }
