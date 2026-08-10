@@ -57,6 +57,7 @@ export interface IMosque extends Document {
       };
     };
   };
+  searchTokens: string[];
 
   subscription: {
     planId: string;
@@ -147,7 +148,10 @@ const MosqueSchema: Schema<IMosque> = new Schema(
         },
       },
     },
-
+    searchTokens: {
+      type: [String],
+      index: true, // multikey index — each token gets indexed individually
+    },
     subscription: {
       planId: { type: String, default: "free" },
       stripeCustomerId: { type: String, trim: true },
@@ -162,9 +166,22 @@ const MosqueSchema: Schema<IMosque> = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
-
+// in Mosque.ts, after schema definition, before model export
+MosqueSchema.index({ status: 1, createdAt: -1 }); // default sort path
+MosqueSchema.index({ status: 1, "address.city": 1 }); // city filter path
+MosqueSchema.index(
+  { name: "text", "address.city": "text", "address.district": "text" },
+  { weights: { name: 10, "address.city": 5, "address.district": 3 } },
+);
+// in Mosque.ts, before the model export
+MosqueSchema.pre("save", function (next) {
+  const text =
+    `${this.name} ${this.address.city} ${this.address.district}`.toLowerCase();
+  this.searchTokens = [...new Set(text.split(/\s+/).filter(Boolean))];
+  next();
+});
 // ==========================================
 // 3. Model Export
 // ==========================================

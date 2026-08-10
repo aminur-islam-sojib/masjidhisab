@@ -18,7 +18,7 @@ export async function loginAction(data: LoginInput) {
     await signIn("credentials", {
       email: data.email,
       password: data.password,
-      redirectTo: "/dashboard",
+      redirectTo: "/welcome",
     });
   } catch (error) {
     // 1. Catch specific Auth.js errors to return to the client

@@ -38,6 +38,9 @@ export async function Navbar() {
           <a href="#faq" className="hover:text-sage-700 transition-colors">
             FAQ
           </a>
+          <a href="/explore" className="hover:text-sage-700 transition-colors">
+            Explore
+          </a>
         </nav>
 
         {/* Dynamic Auth Actions */}
