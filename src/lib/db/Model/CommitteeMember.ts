@@ -3,10 +3,10 @@ import mongoose, { Document, Schema, Model, Types } from "mongoose";
 
 export type CommitteeDesignation =
   | "PRESIDENT"
-  | "SECRETARY"
-  | "TREASURER"
   | "VICE_PRESIDENT"
+  | "SECRETARY"
   | "ASSISTANT_SECRETARY"
+  | "TREASURER"
   | "MEMBER";
 
 export interface ICommitteeMember extends Document {
@@ -38,17 +38,11 @@ const CommitteeMemberSchema: Schema<ICommitteeMember> = new Schema(
 
     designation: {
       type: String,
-      enum: [
-        "PRESIDENT",
-        "SECRETARY",
-        "TREASURER",
-        "VICE_PRESIDENT",
-        "ASSISTANT_SECRETARY",
-        "MEMBER",
-      ],
+      enum: ["PRESIDENT", "VICE_PRESIDENT", "SECRETARY", "ASSISTANT_SECRETARY", "TREASURER", "MEMBER"],
       required: true,
       default: "MEMBER",
     },
+
     photoUrl: { type: String, trim: true },
     phone: { type: String, trim: true },
     bio: { type: String, trim: true, maxlength: 500 },
@@ -57,7 +51,6 @@ const CommitteeMemberSchema: Schema<ICommitteeMember> = new Schema(
     termEnd: { type: Date },
 
     isPublic: { type: Boolean, default: true },
-
     displayOrder: { type: Number, default: 0 },
 
     createdBy: {
@@ -66,13 +59,13 @@ const CommitteeMemberSchema: Schema<ICommitteeMember> = new Schema(
       required: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-// Query pattern: dashboard list (admin, all members, in display order)
+// Dashboard listing (admin, all members, ordered)
 CommitteeMemberSchema.index({ mosqueId: 1, displayOrder: 1 });
 
-// Query pattern: public page (only isPublic ones, in display order)
+// Public page listing (only isPublic, ordered)
 CommitteeMemberSchema.index({ mosqueId: 1, isPublic: 1, displayOrder: 1 });
 
 export const CommitteeMember: Model<ICommitteeMember> =

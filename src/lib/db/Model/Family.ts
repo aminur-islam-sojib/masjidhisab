@@ -9,6 +9,7 @@ export interface IFamily extends Document {
   address: string;
   memberCount: number;
   status: "PENDING" | "APPROVED" | "REJECTED";
+  isActive: { type: Boolean, default: true },
   joinedDate?: Date;
   createdAt: Date;
   updatedAt: Date;

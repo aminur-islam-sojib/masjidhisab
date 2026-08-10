@@ -5,13 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MoonStar, ChevronRight, LogOut, Building2, X } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { navigationItems } from "@/lib/dashboard-navigation";
 import { AppSidebarProps } from "@/types/dashboard";
+// components/AppSidebar.tsx — add an icon map, resolve locally
+import { Bell, Clock, LayoutDashboard, Settings, Users, Wallet, UserPlus, UserCircle } from "lucide-react";
 
+const ICON_MAP = {
+  LayoutDashboard,
+  Wallet,
+  Clock,
+  Users,
+  UserPlus,
+  Bell,
+  UserCircle,
+  Settings,
+} as const;
 export function AppSidebar({
   mosqueName = "My Mosque",
   userName,
   userEmail,
+  navigationItems,
   pendingRequestsCount = 0,
   isOpen,
   onClose,
@@ -77,9 +89,9 @@ export function AppSidebar({
 
           {/* Navigation Links */}
           <nav className="px-3 space-y-1">
-            {navigationItems.map((item) => {
+  {navigationItems.map((item) => {
+  const Icon = ICON_MAP[item.icon as keyof typeof ICON_MAP];
               const isActive = pathname === item.href;
-              const Icon = item.icon;
 
               return (
                 <Link

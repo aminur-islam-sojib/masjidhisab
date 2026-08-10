@@ -4,6 +4,7 @@
 import * as React from "react";
 import { Menu } from "lucide-react";
 import { AppSidebar } from "./app-sidebar";
+import { UserRole } from "@/types/auth";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface DashboardShellProps {
   userName: string;
   userEmail: string;
   pendingRequestsCount : number; 
+  navigationItems : UserRole;
 }
 
 export function DashboardShell({
@@ -20,7 +22,8 @@ export function DashboardShell({
   mosqueAddress,
   userName,
   userEmail,
-  pendingRequestsCount
+  pendingRequestsCount,
+  navigationItems
 }: DashboardShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -32,6 +35,7 @@ export function DashboardShell({
         userName={userName}
         userEmail={userEmail}
         isOpen={isMobileMenuOpen}
+        navigationItems={navigationItems}
         pendingRequestsCount= {pendingRequestsCount}
         onClose={() => setIsMobileMenuOpen(false)}
       />

@@ -1,3 +1,5 @@
+import { UserRole } from "./auth";
+
 export interface AppSidebarProps {
   mosqueName?: string;
   userName?: string;
@@ -10,6 +12,7 @@ export interface AppSidebarProps {
   mosqueName?: string;
   userName?: string;
   userEmail?: string;
+  navigationItems : UserRole;
   isOpen: boolean;
   onClose: () => void;
   pendingRequestsCount?: number; // add this
