@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getMyMosque } from "@/features/Mosque/queries";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { auth } from "@/lib/auth/auth";
+import { getPendingRequestsCount } from "@/features/family/queries";
 
 export default async function DashboardLayout({
   children,
@@ -23,6 +24,9 @@ export default async function DashboardLayout({
   const addressString = mosque?.address
     ? `${mosque.address.city}, ${mosque.address.district}`
     : undefined;
+  const pendingRequestsCount = session?.user?.mosqueId
+    ? await getPendingRequestsCount(session.user.mosqueId)
+    : 0;
 
   return (
     <DashboardShell
@@ -30,6 +34,7 @@ export default async function DashboardLayout({
       mosqueAddress={addressString}
       userName={session.user.name || "Admin"}
       userEmail={session.user.email || ""}
+      pendingRequestsCount={pendingRequestsCount || 0}
     >
       {children}
     </DashboardShell>

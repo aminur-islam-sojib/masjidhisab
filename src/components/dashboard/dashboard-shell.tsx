@@ -11,6 +11,7 @@ interface DashboardShellProps {
   mosqueAddress?: string;
   userName: string;
   userEmail: string;
+  pendingRequestsCount : number; 
 }
 
 export function DashboardShell({
@@ -19,6 +20,7 @@ export function DashboardShell({
   mosqueAddress,
   userName,
   userEmail,
+  pendingRequestsCount
 }: DashboardShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -30,6 +32,7 @@ export function DashboardShell({
         userName={userName}
         userEmail={userEmail}
         isOpen={isMobileMenuOpen}
+        pendingRequestsCount= {pendingRequestsCount}
         onClose={() => setIsMobileMenuOpen(false)}
       />
 
