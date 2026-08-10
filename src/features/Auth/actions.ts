@@ -3,14 +3,14 @@ import { signIn } from "@/lib/auth/auth";
 
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
-import { User } from "@/lib/db/Model/User";
+import { User } from "@/lib/Model/User";
 import {
   LoginInput,
   loginSchema,
   RegisterInput,
   registerSchema,
 } from "@/features/Auth/schema";
-import connectDB from "@/lib/mongoose";
+import connectDB from "@/lib/db/mongoose";
 
 export async function loginAction(data: LoginInput) {
   try {

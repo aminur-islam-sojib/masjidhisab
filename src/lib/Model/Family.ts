@@ -3,12 +3,13 @@ import mongoose, { Document, Schema, Model, Types } from "mongoose";
 
 export interface IFamily extends Document {
   mosqueId: Types.ObjectId;
-  userId: Types.ObjectId; // links to the account that owns this profile
+  userId: Types.ObjectId;
   headOfFamilyName: string;
   phone: string;
   address: string;
   memberCount: number;
   status: "PENDING" | "APPROVED" | "REJECTED";
+  isActive: boolean;              // ← plain type here, not schema syntax
   joinedDate?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -37,12 +38,15 @@ const FamilySchema: Schema<IFamily> = new Schema(
       enum: ["PENDING", "APPROVED", "REJECTED"],
       default: "PENDING",
     },
+    isActive: { type: Boolean, default: true },   // ← actually goes here, in the schema fields
     joinedDate: { type: Date },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 FamilySchema.index({ mosqueId: 1, phone: 1 }, { unique: true });
 
 export const Family: Model<IFamily> =
   mongoose.models.Family || mongoose.model<IFamily>("Family", FamilySchema);
+
+  

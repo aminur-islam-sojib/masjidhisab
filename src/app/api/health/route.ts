@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import connectDB from "@/lib/mongoose";
+import connectDB from "@/lib/db/mongoose";
 
 // Ensures this route is dynamically evaluated on every request
 export const dynamic = "force-dynamic";

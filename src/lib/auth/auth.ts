@@ -2,9 +2,9 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
-import connectDB from "@/lib/mongoose"; // Use your new cached connection
+import connectDB from "@/lib/db/mongoose"; // Use your new cached connection
 import { authConfig } from "./auth.config";
-import { User } from "../db/Model/User";
+import { User } from "../Model/User";
 
 // Extend NextAuth types (can also be moved to a global d.ts file)
 declare module "next-auth" {

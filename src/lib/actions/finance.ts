@@ -8,8 +8,8 @@ import {
   CreateTransactionInput,
 } from "@/lib/validations/finance";
 import { revalidatePath } from "next/cache";
-import connectDB from "../mongoose";
-import { Mosque } from "../db/Model/Mosque";
+import connectDB from "../db/mongoose";
+import { Mosque } from "../Model/Mosque";
 import { Transaction } from "../db/Transaction";
 import mongoose from "mongoose";
 
@@ -110,3 +110,47 @@ export async function getFinancialSummaryAction() {
     };
   }
 }
+ 
+
+import bcrypt from "bcryptjs";
+import { adminCreateMemberSchema, AdminCreateMemberInput } from "@/lib/validations/family";
+import { UserRole } from "@/types/auth";
+import { requireTenant } from "../auth/guards";
+import { User } from "../Model/User";
+import { Family } from "../Model/Family";
+
+export const adminCreateMember = requireTenant(
+  [UserRole.MOSQUE_ADMIN],
+  async ({ session }, input: AdminCreateMemberInput) => {
+    const parsed = adminCreateMemberSchema.parse(input);
+    await connectDB();
+
+    const existingUser = await User.findOne({ email: parsed.email });
+    if (existingUser) throw new Error("A user with this email already exists");
+
+    const hashedPassword = await bcrypt.hash(parsed.password, 10);
+
+    const user = await User.create({
+      name: parsed.name,
+      email: parsed.email,
+      password: hashedPassword,
+      role: UserRole.MEMBER,
+      mosqueId: session.user.mosqueId,
+    });
+
+    const family = await Family.create({
+      mosqueId: session.user.mosqueId,
+      userId: user._id,
+      headOfFamilyName: parsed.headOfFamilyName,
+      phone: parsed.phone,
+      address: parsed.address,
+      memberCount: parsed.memberCount,
+      status: "APPROVED",
+      isActive: true,
+      joinedDate: new Date(),
+    });
+
+    revalidatePath("/dashboard/members");
+    return JSON.parse(JSON.stringify(family));
+  }
+);

@@ -1,6 +1,6 @@
 // scripts/backfill-search-tokens.ts
-import connectDB from "@/lib/mongoose";
-import { Mosque } from "@/lib/db/Model/Mosque";
+import connectDB from "@/lib/db/mongoose";
+import { Mosque } from "@/lib/Model/Mosque";
 
 async function run() {
   await connectDB();

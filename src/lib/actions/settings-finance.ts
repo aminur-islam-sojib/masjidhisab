@@ -7,8 +7,8 @@ import {
   UpdateFinanceSettingsInput,
 } from "@/lib/validations/settings-finance";
 import { revalidatePath } from "next/cache";
-import connectDB from "../mongoose";
-import { Mosque } from "../db/Model/Mosque";
+import connectDB from "../db/mongoose";
+import { Mosque } from "../Model/Mosque";
 
 /**
  * Updates mosque finance rules, MFS accounts, and bank details.

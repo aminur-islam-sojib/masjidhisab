@@ -1,6 +1,6 @@
 "use server";
 
-import connectDB from "@/lib/mongoose";
+import connectDB from "@/lib/db/mongoose";
 // import { Mosque } from "@/db/Model/Mosque";
 import {
   createMosqueSchema,
@@ -10,8 +10,8 @@ import {
 } from "./schema";
 import { revalidatePath } from "next/cache";
 import slugify from "slugify";
-import { Mosque } from "@/lib/db/Model/Mosque";
-import { User } from "@/lib/db/Model/User";
+import { Mosque } from "@/lib/Model/Mosque";
+import { User } from "@/lib/Model/User";
 import { auth } from "@/lib/auth/auth";
 import { UserRole } from "@/types/auth";
 

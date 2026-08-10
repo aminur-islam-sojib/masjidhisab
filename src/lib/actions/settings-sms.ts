@@ -4,8 +4,8 @@ import { requireAuth } from "@/lib/auth/rbac";
 
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import connectDB from "../mongoose";
-import { Mosque } from "../db/Model/Mosque";
+import connectDB from "../db/mongoose";
+import { Mosque } from "../Model/Mosque";
 
 const updateSmsSettingsSchema = z.object({
   enabled: z.boolean().default(false),

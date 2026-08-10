@@ -7,8 +7,8 @@ import {
 } from "@/lib/validations/mosque";
 import { revalidatePath } from "next/cache";
 import { requireAuth } from "../auth/rbac";
-import { Mosque } from "../db/Model/Mosque";
-import connectDB from "../mongoose";
+import { Mosque } from "../Model/Mosque";
+import connectDB from "../db/mongoose";
 
 /**
  * Updates the current mosque's profile settings.

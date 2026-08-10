@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 /**
  * Subtle 8-point star tessellation, inspired by Islamic geometric art.

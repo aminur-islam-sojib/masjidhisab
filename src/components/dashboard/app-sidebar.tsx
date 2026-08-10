@@ -5,13 +5,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MoonStar, ChevronRight, LogOut, Building2, X } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { navigationItems } from "@/lib/dashboard-navigation";
 import { AppSidebarProps } from "@/types/dashboard";
+// components/AppSidebar.tsx — add an icon map, resolve locally
+import { Bell, Clock, LayoutDashboard, Settings, Users, Wallet, UserPlus, UserCircle } from "lucide-react";
 
+const ICON_MAP = {
+  LayoutDashboard,
+  Wallet,
+  Clock,
+  Users,
+  UserPlus,
+  Bell,
+  UserCircle,
+  Settings,
+} as const;
 export function AppSidebar({
   mosqueName = "My Mosque",
   userName,
   userEmail,
+  navigationItems,
+  pendingRequestsCount = 0,
   isOpen,
   onClose,
 }: AppSidebarProps) {
@@ -76,9 +89,9 @@ export function AppSidebar({
 
           {/* Navigation Links */}
           <nav className="px-3 space-y-1">
-            {navigationItems.map((item) => {
+  {navigationItems.map((item) => {
+  const Icon = ICON_MAP[item.icon as keyof typeof ICON_MAP];
               const isActive = pathname === item.href;
-              const Icon = item.icon;
 
               return (
                 <Link
@@ -91,15 +104,17 @@ export function AppSidebar({
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon
-                      size={18}
-                      className={isActive ? "text-white" : "text-ink-faint"}
-                    />
-                    <span>{item.title}</span>
-                  </div>
-                  {isActive && (
-                    <ChevronRight size={14} className="text-white/80" />
-                  )}
+    <Icon size={18} className={isActive ? "text-white" : "text-ink-faint"} />
+    <span>{item.title}</span>
+  </div>
+
+  {item.href === "/dashboard/requests" && pendingRequestsCount > 0 ? (
+    <span className="text-[11px] font-semibold bg-gold-400 text-white rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+      {pendingRequestsCount}
+    </span>
+  ) : (
+    isActive && <ChevronRight size={14} className="text-white/80" />
+  )}
                 </Link>
               );
             })}

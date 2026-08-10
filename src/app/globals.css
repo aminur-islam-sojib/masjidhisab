@@ -55,6 +55,9 @@
   --color-input: var(--color-sage-200);
   --color-ring: var(--color-sage-400);
 
+--color-popover: #ffffff;
+  --color-popover-foreground: var(--color-ink);
+
   --radius: 0.75rem;
 }
 
