@@ -14,6 +14,7 @@ import { Pencil, Phone, MapPin, Users, Plus } from "lucide-react";
 import { toggleFamilyActive } from "@/features/family/actions";
 import MemberEditForm from "./member-edit-form";
 import AdminCreateMemberForm from "./admin-create-member-form";
+import Link from "next/link";
 
 interface FamilyMember {
   _id: string;
@@ -91,7 +92,8 @@ function handleCreated(newFamily: FamilyMember) {
 </Dialog>
       <div className="bg-white rounded-2xl border border-sage-200 divide-y divide-sage-100">
         {families.map((family) => (
-          <div key={family._id} className="flex items-center justify-between p-4 gap-4 flex-wrap">
+       <Link href={`/dashboard/members/${family._id}`} className="min-w-0 flex-1"> 
+   <div key={family._id} className="flex items-center justify-between p-4 gap-4 flex-wrap">
             <div className="min-w-0">
               <p className="text-ink font-medium text-sm">{family.headOfFamilyName}</p>
               <div className="flex items-center gap-3 text-ink-soft text-xs mt-1 flex-wrap">
@@ -134,6 +136,9 @@ function handleCreated(newFamily: FamilyMember) {
               </Button>
             </div>
           </div>
+
+
+ </Link>
         ))}
       </div>
 
