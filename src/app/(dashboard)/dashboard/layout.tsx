@@ -4,7 +4,7 @@ import { getMyMosque } from "@/features/Mosque/queries";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { auth } from "@/lib/auth/auth";
 import { getPendingRequestsCount } from "@/features/family/queries";
-import { getNavItemsForRole } from "@/lib/dashboard-navigation";
+import { getNavItemsForRole } from "@/lib/utils/dashboard-navigation";
 import { UserRole } from "@/types/auth";
 
 export default async function DashboardLayout({

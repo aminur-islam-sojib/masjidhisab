@@ -1,11 +1,11 @@
 // features/family/actions.ts
 "use server";
-import connectDB from "@/lib/mongoose";
-import { Mosque } from "@/lib/db/Model/Mosque";
+import connectDB from "@/lib/db/mongoose";
+import { Mosque } from "@/lib/Model/Mosque";
 import { joinMosqueSchema, JoinMosqueInput } from "@/lib/validations/family";
 import { revalidatePath } from "next/cache";
-import { Family } from "@/lib/db/Model/Family";
-import { User } from "@/lib/db/Model/User";
+import { Family } from "@/lib/Model/Family";
+import { User } from "@/lib/Model/User";
 import { requireTenant } from "@/lib/auth/guards"; // ← this import was missing/pointing nowhere
 import { UserRole } from "@/types/auth";
 import { auth } from "@/lib/auth/auth";

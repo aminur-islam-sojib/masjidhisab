@@ -1,6 +1,6 @@
 import "server-only";
-import connectDB from "@/lib/mongoose";
-import { Mosque } from "@/lib/db/Model/Mosque";
+import connectDB from "@/lib/db/mongoose";
+import { Mosque } from "@/lib/Model/Mosque";
 import { auth } from "@/lib/auth/auth";
 import { unstable_cache } from "next/cache";
 import { escapeRegex } from "@/lib/utils/regex";

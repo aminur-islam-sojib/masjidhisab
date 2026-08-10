@@ -5,8 +5,8 @@ import { requireAuth } from "@/lib/auth/rbac";
 import { UserRole } from "@/types/auth";
 import { revalidatePath } from "next/cache";
 import mongoose from "mongoose";
-import connectDB from "../mongoose";
-import { User } from "../db/Model/User";
+import connectDB from "../db/mongoose";
+import { User } from "../Model/User";
 
 /**
  * Fetches all team members and staff tied to the current mosque workspace.

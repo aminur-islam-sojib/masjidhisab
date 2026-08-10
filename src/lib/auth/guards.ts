@@ -1,8 +1,8 @@
 // lib/auth/guards.ts
 import { auth } from "@/lib/auth/auth";
 import { UserRole } from "@/types/auth";
-import { Mosque, IMosque } from "@/lib/db/Model/Mosque";
-import connectDB from "@/lib/mongoose";
+import { Mosque, IMosque } from "@/lib/Model/Mosque";
+import connectDB from "@/lib/db/mongoose";
 import type { Session } from "next-auth";
 
 type ActionResult<T> =

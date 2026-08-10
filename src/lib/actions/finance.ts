@@ -8,8 +8,8 @@ import {
   CreateTransactionInput,
 } from "@/lib/validations/finance";
 import { revalidatePath } from "next/cache";
-import connectDB from "../mongoose";
-import { Mosque } from "../db/Model/Mosque";
+import connectDB from "../db/mongoose";
+import { Mosque } from "../Model/Mosque";
 import { Transaction } from "../db/Transaction";
 import mongoose from "mongoose";
 
@@ -116,8 +116,8 @@ import bcrypt from "bcryptjs";
 import { adminCreateMemberSchema, AdminCreateMemberInput } from "@/lib/validations/family";
 import { UserRole } from "@/types/auth";
 import { requireTenant } from "../auth/guards";
-import { User } from "../db/Model/User";
-import { Family } from "../db/Model/Family";
+import { User } from "../Model/User";
+import { Family } from "../Model/Family";
 
 export const adminCreateMember = requireTenant(
   [UserRole.MOSQUE_ADMIN],

@@ -1,6 +1,6 @@
 // lib/queries/mosque.ts
-import connectDB from "@/lib/mongoose";
-import { Mosque } from "@/lib/db/Model/Mosque"; // Adjust this import path to match where your Mosque model is saved
+import connectDB from "@/lib/db/mongoose";
+import { Mosque } from "@/lib/Model/Mosque"; // Adjust this import path to match where your Mosque model is saved
 
 export async function getMosqueDetails(mosqueId: string) {
   try {

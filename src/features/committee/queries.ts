@@ -1,7 +1,7 @@
 // features/committee/queries.ts
 import { unstable_cache } from "next/cache";
-import connectDB from "@/lib/mongoose";
-import { CommitteeMember } from "@/lib/db/Model/CommitteeMember";
+import connectDB from "@/lib/db/mongoose";
+import { CommitteeMember } from "@/lib/Model/CommitteeMember";
 
 // Admin dashboard — authenticated, low traffic, no caching needed
 export async function getCommitteeForDashboard(mosqueId: string) {

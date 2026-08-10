@@ -3,7 +3,7 @@
 
 import { requireAuth } from "@/lib/auth/rbac";
 import { Transaction } from "@/lib/db/Transaction";
-import connectDB from "@/lib/mongoose";
+import connectDB from "@/lib/db/mongoose";
 
 import mongoose from "mongoose";
 

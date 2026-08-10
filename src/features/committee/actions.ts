@@ -2,8 +2,8 @@
 "use server";
 
 import { revalidateTag, revalidatePath } from "next/cache";
-import connectDB from "@/lib/mongoose";
-import { CommitteeMember } from "@/lib/db/Model/CommitteeMember";
+import connectDB from "@/lib/db/mongoose";
+import { CommitteeMember } from "@/lib/Model/CommitteeMember";
 import { committeeMemberSchema, CommitteeMemberInput } from "@/lib/validations/committee";
 import { requireTenant } from "@/lib/auth/guards";
 import { UserRole } from "@/types/auth";

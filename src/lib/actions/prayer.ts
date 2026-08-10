@@ -8,8 +8,8 @@ import {
   UpdatePrayerSettingsInput,
 } from "@/lib/validations/prayer";
 import { revalidatePath } from "next/cache";
-import connectDB from "../mongoose";
-import { Mosque } from "../db/Model/Mosque";
+import connectDB from "../db/mongoose";
+import { Mosque } from "../Model/Mosque";
 
 /**
  * Updates the mosque's prayer calculation rules and Iqamah delay offsets.

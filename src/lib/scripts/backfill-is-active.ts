@@ -1,6 +1,6 @@
 // scripts/backfill-is-active.ts
-import connectDB from "@/lib/mongoose";
-import { Family } from "@/lib/db/Model/Family";
+import connectDB from "@/lib/db/mongoose";
+import { Family } from "@/lib/Model/Family";
 
 async function run() {
   await connectDB();
