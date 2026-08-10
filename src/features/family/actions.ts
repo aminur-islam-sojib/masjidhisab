@@ -102,3 +102,73 @@ export const rejectJoinRequest = requireTenant(
     return { rejected: true };
   }
 );
+
+// features/family/actions.ts (add)
+export const updateFamily = requireTenant(
+  [UserRole.MOSQUE_ADMIN],
+  async ({ session }, familyId: string, input: Partial<JoinMosqueInput>) => {
+    await connectDB();
+    const family = await Family.findOneAndUpdate(
+      { _id: familyId, mosqueId: session.user.mosqueId },
+      input,
+      { new: true }
+    );
+    if (!family) throw new Error("Member not found");
+    return JSON.parse(JSON.stringify(family));
+  }
+);
+
+export const toggleFamilyActive = requireTenant(
+  [UserRole.MOSQUE_ADMIN],
+  async ({ session }, familyId: string, isActive: boolean) => {
+    await connectDB();
+    const family = await Family.findOneAndUpdate(
+      { _id: familyId, mosqueId: session.user.mosqueId },
+      { isActive },
+      { new: true }
+    );
+    if (!family) throw new Error("Member not found");
+    return JSON.parse(JSON.stringify(family));
+  }
+);
+
+
+import bcrypt from "bcryptjs";
+import { adminCreateMemberSchema, AdminCreateMemberInput } from "@/lib/validations/family";
+ 
+
+export const adminCreateMember = requireTenant(
+  [UserRole.MOSQUE_ADMIN],
+  async ({ session }, input: AdminCreateMemberInput) => {
+    const parsed = adminCreateMemberSchema.parse(input);
+    await connectDB();
+
+    const existingUser = await User.findOne({ email: parsed.email });
+    if (existingUser) throw new Error("A user with this email already exists");
+
+    const hashedPassword = await bcrypt.hash(parsed.password, 10);
+
+    const user = await User.create({
+      name: parsed.name,
+      email: parsed.email,
+      password: hashedPassword,
+      role: UserRole.MEMBER,
+      mosqueId: session.user.mosqueId,
+    });
+
+    const family = await Family.create({
+      mosqueId: session.user.mosqueId,
+      userId: user._id,
+      headOfFamilyName: parsed.headOfFamilyName,
+      phone: parsed.phone,
+      address: parsed.address,
+      memberCount: parsed.memberCount,
+      status: "APPROVED",
+      isActive: true,
+      joinedDate: new Date(),
+    });
+
+    revalidatePath("/dashboard/members");
+    return JSON.parse(JSON.stringify(family));
+  }
+);
