@@ -3,10 +3,6 @@
 
 import { requireAuth } from "@/lib/auth/rbac";
 
-import {
-  createTransactionSchema,
-  CreateTransactionInput,
-} from "@/lib/validations/finance";
 import { revalidatePath } from "next/cache";
 import connectDB from "../db/mongoose";
 import { Mosque } from "../Model/Mosque";
@@ -110,10 +106,12 @@ export async function getFinancialSummaryAction() {
     };
   }
 }
- 
 
 import bcrypt from "bcryptjs";
-import { adminCreateMemberSchema, AdminCreateMemberInput } from "@/lib/validations/family";
+import {
+  adminCreateMemberSchema,
+  AdminCreateMemberInput,
+} from "@/lib/validations/family";
 import { UserRole } from "@/types/auth";
 import { requireTenant } from "../auth/guards";
 import { User } from "../Model/User";
@@ -152,5 +150,5 @@ export const adminCreateMember = requireTenant(
 
     revalidatePath("/dashboard/members");
     return JSON.parse(JSON.stringify(family));
-  }
+  },
 );
