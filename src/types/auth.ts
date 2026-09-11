@@ -3,4 +3,5 @@ export enum UserRole {
   MOSQUE_ADMIN = "Mosque Admin",
   STAFF = "Staff",
   MEMBER = "Member",
+  COMMITTEE_MEMBER = "Committee Member",
 }

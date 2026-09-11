@@ -120,9 +120,11 @@ export default function TeamSettingsList() {
                       className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                         member.role === UserRole.MOSQUE_ADMIN
                           ? "bg-purple-50 text-purple-700"
-                          : member.role === UserRole.STAFF
-                            ? "bg-blue-50 text-blue-700"
-                            : "bg-slate-100 text-slate-700"
+                          : member.role === UserRole.COMMITTEE_MEMBER
+                            ? "bg-amber-50 text-amber-700"
+                            : member.role === UserRole.STAFF
+                              ? "bg-blue-50 text-blue-700"
+                              : "bg-slate-100 text-slate-700"
                       }`}
                     >
                       <Shield size={12} />
@@ -143,6 +145,9 @@ export default function TeamSettingsList() {
                       </option>
                       <option value={UserRole.STAFF}>Staff</option>
                       <option value={UserRole.MEMBER}>Member</option>
+                      <option value={UserRole.COMMITTEE_MEMBER}>
+                        Committee Member
+                      </option>
                     </select>
                   </td>
                 </tr>

@@ -10,6 +10,7 @@ import {
 import { revalidatePath } from "next/cache";
 import connectDB from "../mongoose";
 import { Mosque } from "../db/Model/Mosque";
+import { computeDaySchedule } from "@/lib/prayer-times";
 
 /**
  * Updates the mosque's prayer calculation rules and Iqamah delay offsets.
@@ -51,6 +52,45 @@ export async function updatePrayerSettingsAction(
     return {
       success: false,
       message: error.message || "Failed to update prayer settings.",
+    };
+  }
+}
+
+/**
+ * Returns today + the next 6 days of prayer times for the current mosque.
+ */
+export async function getPrayerScheduleAction() {
+  try {
+    const { mosqueId } = await requireAuth();
+
+    await connectDB();
+
+    const mosque = await Mosque.findById(mosqueId)
+      .select("prayerSettings")
+      .lean();
+
+    if (!mosque) {
+      throw new Error("Mosque workspace not found.");
+    }
+
+    const settings = mosque.prayerSettings || {};
+    const today = new Date();
+
+    const days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() + i,
+      );
+      return computeDaySchedule(settings, date);
+    });
+
+    return { success: true, data: days };
+  } catch (error: any) {
+    console.error("Error loading prayer schedule:", error);
+    return {
+      success: false,
+      message: error.message || "Failed to load prayer schedule.",
     };
   }
 }

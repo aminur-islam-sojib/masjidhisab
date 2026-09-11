@@ -39,6 +39,22 @@ export interface IMosque extends Document {
     calculationMethod: string;
     jummahTime?: string;
     timezone: string;
+    mode: "auto" | "manual";
+    coordinates: { lat: number; lng: number };
+    iqamahOffsets: {
+      fajr: number;
+      dhuhr: number;
+      asr: number;
+      maghrib: number;
+      isha: number;
+    };
+    manualTimes?: {
+      fajr?: string;
+      dhuhr?: string;
+      asr?: string;
+      maghrib?: string;
+      isha?: string;
+    };
   };
 
   financeSettings: {
@@ -122,6 +138,25 @@ const MosqueSchema: Schema<IMosque> = new Schema(
       },
       jummahTime: { type: String, trim: true },
       timezone: { type: String, default: "Asia/Dhaka" },
+      mode: { type: String, enum: ["auto", "manual"], default: "auto" },
+      coordinates: {
+        lat: { type: Number, default: 23.8103 },
+        lng: { type: Number, default: 90.4125 },
+      },
+      iqamahOffsets: {
+        fajr: { type: Number, default: 20 },
+        dhuhr: { type: Number, default: 15 },
+        asr: { type: Number, default: 15 },
+        maghrib: { type: Number, default: 10 },
+        isha: { type: Number, default: 15 },
+      },
+      manualTimes: {
+        fajr: { type: String, trim: true },
+        dhuhr: { type: String, trim: true },
+        asr: { type: String, trim: true },
+        maghrib: { type: String, trim: true },
+        isha: { type: String, trim: true },
+      },
     },
 
     financeSettings: {

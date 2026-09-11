@@ -1,7 +1,7 @@
 // app/dashboard/settings/_components/prayer-settings-form.tsx
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -9,6 +9,7 @@ import {
   UpdatePrayerSettingsInput,
 } from "@/lib/validations/prayer";
 import { updatePrayerSettingsAction } from "@/lib/actions/prayer";
+import { getMosqueSettingsAction } from "@/lib/actions/mosque";
 import {
   Clock,
   Globe,
@@ -31,11 +32,12 @@ export default function PrayerSettingsForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdatePrayerSettingsInput>({
     resolver: zodResolver(updatePrayerSettingsSchema),
     defaultValues: {
-      calculationMethod: "Karachi",
+      calculationMethod: "UniversityOfIslamicSciencesKarachi",
       timezone: "Asia/Dhaka",
       jummahTime: "13:30",
       iqamahOffsets: {
@@ -48,11 +50,39 @@ export default function PrayerSettingsForm() {
     },
   });
 
+  const loadSettings = async () => {
+    const res = await getMosqueSettingsAction();
+    if (!res.success || !res.data) return;
+
+    const prayer = res.data.prayerSettings;
+    const offsets = prayer?.iqamahOffsets;
+    reset({
+      calculationMethod:
+        prayer?.calculationMethod ?? "UniversityOfIslamicSciencesKarachi",
+      timezone: prayer?.timezone ?? "Asia/Dhaka",
+      jummahTime: prayer?.jummahTime ?? "13:30",
+      iqamahOffsets: {
+        fajr: offsets?.fajr ?? 20,
+        dhuhr: offsets?.dhuhr ?? 15,
+        asr: offsets?.asr ?? 15,
+        maghrib: offsets?.maghrib ?? 10,
+        isha: offsets?.isha ?? 15,
+      },
+    });
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
   async function onSubmit(data: UpdatePrayerSettingsInput) {
     setMessage(null);
     startTransition(async () => {
       const res = await updatePrayerSettingsAction(data);
       setMessage({ success: res.success, text: res.message });
+      if (res.success) {
+        await loadSettings();
+      }
     });
   }
 
@@ -95,15 +125,17 @@ export default function PrayerSettingsForm() {
             {...register("calculationMethod")}
             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
           >
-            <option value="Karachi">
+            <option value="UniversityOfIslamicSciencesKarachi">
               University of Islamic Sciences, Karachi
             </option>
-            <option value="ISNA">
+            <option value="IslamicSocietyOfNorthAmerica">
               Islamic Society of North America (ISNA)
             </option>
-            <option value="MWL">Muslim World League (MWL)</option>
+            <option value="MuslimWorldLeague">
+              Muslim World League (MWL)
+            </option>
             <option value="UmmAlQura">Umm al-Qura University, Makkah</option>
-            <option value="Egyptian">
+            <option value="EgyptianGeneralAuthorityOfSurvey">
               Egyptian General Authority of Survey
             </option>
           </select>

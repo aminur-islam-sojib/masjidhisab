@@ -1,7 +1,7 @@
 // app/dashboard/settings/_components/finance-settings-form.tsx
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -9,6 +9,7 @@ import {
   UpdateFinanceSettingsInput,
 } from "@/lib/validations/settings-finance";
 import { updateFinanceSettingsAction } from "@/lib/actions/settings-finance";
+import { getMosqueSettingsAction } from "@/lib/actions/mosque";
 import {
   Wallet,
   Smartphone,
@@ -32,6 +33,7 @@ export default function FinanceSettingsForm() {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdateFinanceSettingsInput>({
     resolver: zodResolver(updateFinanceSettingsSchema),
@@ -56,11 +58,41 @@ export default function FinanceSettingsForm() {
     name: "donationAccounts.mobileBanking",
   });
 
+  const loadSettings = async () => {
+    const res = await getMosqueSettingsAction();
+    if (!res.success || !res.data) return;
+
+    const finance = res.data.financeSettings;
+    reset({
+      currency: finance?.currency ?? "BDT",
+      fiscalYearStart: finance?.fiscalYearStart ?? "July",
+      zakatNisabAutoFetch: finance?.zakatNisabAutoFetch ?? false,
+      donationAccounts: {
+        mobileBanking: finance?.donationAccounts?.mobileBanking ?? [],
+        bankDetails: {
+          bankName: finance?.donationAccounts?.bankDetails?.bankName ?? "",
+          accountName:
+            finance?.donationAccounts?.bankDetails?.accountName ?? "",
+          accountNumber:
+            finance?.donationAccounts?.bankDetails?.accountNumber ?? "",
+          routing: finance?.donationAccounts?.bankDetails?.routing ?? "",
+        },
+      },
+    });
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
   async function onSubmit(data: UpdateFinanceSettingsInput) {
     setMessage(null);
     startTransition(async () => {
       const res = await updateFinanceSettingsAction(data);
       setMessage({ success: res.success, text: res.message });
+      if (res.success) {
+        await loadSettings();
+      }
     });
   }
 

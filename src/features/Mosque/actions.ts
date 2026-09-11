@@ -13,6 +13,7 @@ import slugify from "slugify";
 import { Mosque } from "@/lib/db/Model/Mosque";
 import { User } from "@/lib/db/Model/User";
 import { auth } from "@/lib/auth/auth";
+import { UserRole } from "@/types/auth";
 
 /**
  * 1. CREATE MOSQUE
@@ -36,7 +37,7 @@ export async function createMosqueAction(data: CreateMosqueInput) {
     await connectDB();
 
     // Generate unique slug
-    let baseSlug = slugify(validated.name, { lower: true, strict: true });
+    const baseSlug = slugify(validated.name, { lower: true, strict: true });
     let slug = baseSlug;
     let counter = 1;
 
@@ -65,7 +66,7 @@ export async function createMosqueAction(data: CreateMosqueInput) {
     // 2. Link Mosque ID to the User
     await User.findByIdAndUpdate(session.user.id, {
       mosqueId: newMosque._id,
-      role: "ADMIN",
+      role: UserRole.MOSQUE_ADMIN,
     });
 
     revalidatePath("/dashboard");
@@ -74,7 +75,7 @@ export async function createMosqueAction(data: CreateMosqueInput) {
       mosqueId: newMosque._id.toString(),
       slug: newMosque.slug,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     return { error: err.message || "Failed to create mosque." };
   }
 }
@@ -129,7 +130,11 @@ export async function updateMosqueAction(data: UpdateMosqueInput) {
 export async function suspendMosqueAction() {
   try {
     const session = await auth();
-    if (!session?.user?.mosqueId || session.user.role !== "ADMIN") {
+    if (
+      !session?.user?.mosqueId ||
+      (session.user.role !== UserRole.MOSQUE_ADMIN &&
+        session.user.role !== UserRole.SUPER_ADMIN)
+    ) {
       return { error: "Forbidden. Admin access required." };
     }
 

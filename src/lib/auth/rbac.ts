@@ -22,6 +22,11 @@ const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   ], // Full access to their mosque
   [UserRole.STAFF]: ["manage_finance", "manage_prayers", "manage_notices"], // Daily operations (Treasurer / Imam role tasks)
   [UserRole.MEMBER]: ["view_reports"], // View-only access
+  [UserRole.COMMITTEE_MEMBER]: [
+    "manage_finance",
+    "manage_prayers",
+    "manage_notices",
+  ], // Committee-level operational access
 };
 
 /**

@@ -55,3 +55,35 @@ export async function updateMosqueSettingsAction(input: UpdateMosqueInput) {
     };
   }
 }
+
+/**
+ * Fetches the current mosque's profile and settings for the settings forms.
+ * Allowed for any logged-in member attached to a mosque.
+ */
+export async function getMosqueSettingsAction() {
+  try {
+    const { mosqueId } = await requireAuth();
+    await connectDB();
+
+    const mosque = await Mosque.findById(mosqueId)
+      .select(
+        "name address contact establishedYear imamName capacity prayerSettings financeSettings",
+      )
+      .lean();
+
+    if (!mosque) {
+      throw new Error("Mosque workspace not found.");
+    }
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(mosque)),
+    };
+  } catch (error: any) {
+    console.error("Error loading mosque settings:", error);
+    return {
+      success: false,
+      message: error.message || "Failed to load mosque settings.",
+    };
+  }
+}

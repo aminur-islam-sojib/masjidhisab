@@ -1,0 +1,5 @@
+- Prefers the agent to perform and verify fixes end-to-end (e.g., restart services and confirm actual persistence/behavior) rather than leaving manual steps to the user. Confidence: 0.85
+- Dislikes repeated mistakes; expects root-cause resolution and verified working results before a task is reported done. Confidence: 0.75
+- Prefers add/edit forms (e.g., add member, edit member) to appear as popups/modals rather than inline forms or separate pages. Confidence: 0.85
+- For gender/sex fields, wants only two options (men and women) — no "Other" or additional values. Confidence: 0.85
+- Wants UIs to be responsive across all device sizes (mobile, tablet, desktop) — e.g., card layouts on small screens vs. tables on desktop, full-width buttons on mobile, responsive padding. Confidence: 0.8

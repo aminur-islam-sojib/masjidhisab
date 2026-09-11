@@ -1,8 +1,11 @@
 // app/dashboard/settings/_components/general-settings-form.tsx
 "use client";
 
-import { useState, useTransition } from "react";
-import { updateMosqueSettingsAction } from "@/lib/actions/mosque";
+import { useEffect, useState, useTransition } from "react";
+import {
+  getMosqueSettingsAction,
+  updateMosqueSettingsAction,
+} from "@/lib/actions/mosque";
 
 export default function GeneralSettingsForm() {
   const [isPending, startTransition] = useTransition();
@@ -10,36 +13,69 @@ export default function GeneralSettingsForm() {
     success: boolean;
     text: string;
   } | null>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [version, setVersion] = useState(0);
+
+  const loadProfile = async () => {
+    const res = await getMosqueSettingsAction();
+    if (res.success) {
+      setProfile(res.data);
+    } else {
+      setMessage({
+        success: false,
+        text: res.message || "Failed to load mosque profile.",
+      });
+    }
+    setVersion((v) => v + 1);
+  };
+
+  useEffect(() => {
+    loadProfile();
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
+    // Empty form fields come through as null from FormData, but the Zod schema
+    // expects optional strings to be `undefined` (or "" for email), not `null`.
+    const optionalString = (value: FormDataEntryValue | null) =>
+      value === null || value === "" ? undefined : String(value);
+
     const payload = {
-      name: formData.get("name") as string,
+      name: (formData.get("name") as string) ?? "",
       address: {
-        city: formData.get("city") as string,
-        district: formData.get("district") as string,
-        area: formData.get("area") as string,
-        postalCode: formData.get("postalCode") as string,
+        city: (formData.get("city") as string) ?? "",
+        district: (formData.get("district") as string) ?? "",
+        area: optionalString(formData.get("area")),
+        postalCode: optionalString(formData.get("postalCode")),
       },
       contact: {
-        phone: formData.get("phone") as string,
-        email: formData.get("email") as string,
+        phone: optionalString(formData.get("phone")),
+        email: optionalString(formData.get("email")),
       },
       establishedYear: Number(formData.get("establishedYear")) || undefined,
-      imamName: formData.get("imamName") as string,
+      imamName: optionalString(formData.get("imamName")),
       capacity: Number(formData.get("capacity")) || undefined,
     };
 
     startTransition(async () => {
       const res = await updateMosqueSettingsAction(payload);
       setMessage({ success: res.success, text: res.message });
+      if (res.success) {
+        await loadProfile();
+      }
     });
   }
 
+  if (!profile) {
+    return (
+      <div className="text-sm text-slate-500">Loading mosque profile…</div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form key={version} onSubmit={handleSubmit} className="space-y-6">
       <div>
         <h2 className="text-lg font-medium text-slate-900">
           Mosque Profile Information
@@ -65,7 +101,7 @@ export default function GeneralSettingsForm() {
           <input
             name="name"
             required
-            defaultValue="Central Jamia Mosque"
+            defaultValue={profile.name ?? ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -75,7 +111,7 @@ export default function GeneralSettingsForm() {
           </label>
           <input
             name="imamName"
-            defaultValue="Maulana Ahmed"
+            defaultValue={profile.imamName ?? ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -86,7 +122,7 @@ export default function GeneralSettingsForm() {
           <input
             name="city"
             required
-            defaultValue="Dhaka"
+            defaultValue={profile.address?.city ?? ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -97,7 +133,7 @@ export default function GeneralSettingsForm() {
           <input
             name="district"
             required
-            defaultValue="Dhaka"
+            defaultValue={profile.address?.district ?? ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -107,7 +143,49 @@ export default function GeneralSettingsForm() {
           </label>
           <input
             name="area"
-            defaultValue="Bashundhara R/A"
+            defaultValue={profile.address?.area ?? ""}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            Postal Code
+          </label>
+          <input
+            name="postalCode"
+            defaultValue={profile.address?.postalCode ?? ""}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            Phone
+          </label>
+          <input
+            name="phone"
+            defaultValue={profile.contact?.phone ?? ""}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            Email
+          </label>
+          <input
+            name="email"
+            type="email"
+            defaultValue={profile.contact?.email ?? ""}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            Established Year
+          </label>
+          <input
+            name="establishedYear"
+            type="number"
+            defaultValue={profile.establishedYear ?? ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
@@ -118,7 +196,7 @@ export default function GeneralSettingsForm() {
           <input
             name="capacity"
             type="number"
-            defaultValue="1200"
+            defaultValue={profile.capacity ?? ""}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
           />
         </div>
