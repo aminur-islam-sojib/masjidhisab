@@ -10,6 +10,17 @@ export interface AuthContext {
   userEmail: string;
 }
 
+/**
+ * Returns true when a role holds the given permission. Super Admin always passes.
+ */
+export function hasRolePermission(
+  role: UserRole,
+  permission: string,
+): boolean {
+  if (role === UserRole.SUPER_ADMIN) return true;
+  return (ROLE_PERMISSIONS[role] || []).includes(permission);
+}
+
 // Permission map tailored to your new roles
 const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   [UserRole.SUPER_ADMIN]: ["manage_everything"], // Platform owner

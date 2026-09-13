@@ -34,6 +34,8 @@ export interface IMosque extends Document {
   imamName?: string;
   capacity?: number;
   logoUrl?: string;
+  profileImageUrl?: string;
+  coverImageUrl?: string;
 
   prayerSettings: {
     calculationMethod: string;
@@ -130,6 +132,8 @@ const MosqueSchema: Schema<IMosque> = new Schema(
     imamName: { type: String, trim: true },
     capacity: { type: Number },
     logoUrl: { type: String, trim: true },
+    profileImageUrl: { type: String, trim: true },
+    coverImageUrl: { type: String, trim: true },
 
     prayerSettings: {
       calculationMethod: {

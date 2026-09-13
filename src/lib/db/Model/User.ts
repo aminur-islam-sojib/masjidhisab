@@ -18,6 +18,7 @@ export interface IUser extends Document {
   family?: IFamilyMember[];
   familyCount?: number;
   mosqueId?: mongoose.Types.ObjectId;
+  noticesReadAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -52,6 +53,7 @@ const UserSchema = new Schema<IUser>(
     },
     family: { type: [FamilyMemberSchema], default: [] },
     familyCount: { type: Number, min: 0 },
+    noticesReadAt: { type: Date, default: null },
     mosqueId: {
       type: Schema.Types.ObjectId,
       ref: "Mosque",

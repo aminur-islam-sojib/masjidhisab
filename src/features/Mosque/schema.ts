@@ -8,7 +8,7 @@ export const createMosqueSchema = z.object({
   area: z.string().optional(),
   phone: z.string().optional(),
   imamName: z.string().optional(),
-  capacity: z.coerce.number().min(0).optional(),
+  capacity: z.number().min(0).optional(),
 });
 
 // Update Mosque Input Validation

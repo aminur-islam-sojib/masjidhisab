@@ -67,7 +67,7 @@ export async function getMosqueSettingsAction() {
 
     const mosque = await Mosque.findById(mosqueId)
       .select(
-        "name address contact establishedYear imamName capacity prayerSettings financeSettings",
+        "name address contact establishedYear imamName capacity profileImageUrl coverImageUrl prayerSettings financeSettings",
       )
       .lean();
 

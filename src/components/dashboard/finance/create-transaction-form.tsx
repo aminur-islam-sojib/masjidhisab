@@ -8,6 +8,12 @@ import {
   CreateTransactionInput,
 } from "@/lib/validations/finance";
 import { createTransactionAction } from "@/lib/actions/finance";
+import { getMembersAction } from "@/lib/actions/members";
+import {
+  INCOME_CATEGORIES,
+  EXPENSE_CATEGORIES,
+  PAYMENT_METHODS,
+} from "@/lib/constants/finance";
 import {
   ArrowUpRight,
   ArrowDownLeft,
@@ -15,20 +21,26 @@ import {
   CheckCircle2,
   AlertCircle,
   Loader2,
+  X,
 } from "lucide-react";
+import { Member } from "@/types/member";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface CreateTransactionFormProps {
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
 export function CreateTransactionForm({
   onSuccess,
+  onCancel,
 }: CreateTransactionFormProps) {
   const [serverError, setServerError] = React.useState<string | null>(null);
   const [successMsg, setSuccessMsg] = React.useState<string | null>(null);
+  const [members, setMembers] = React.useState<Member[]>([]);
+  const [selectedMemberId, setSelectedMemberId] = React.useState("");
 
   const {
     register,
@@ -42,11 +54,35 @@ export function CreateTransactionForm({
     defaultValues: {
       type: "INCOME",
       paymentMethod: "CASH",
-      amount: 0,
+      category: "",
+      date: new Date().toISOString().split("T")[0],
     },
   });
 
   const currentType = watch("type");
+  const categories =
+    currentType === "INCOME" ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+
+  React.useEffect(() => {
+    let active = true;
+    getMembersAction().then((res) => {
+      if (active && res.success) {
+        setMembers(res.data ?? []);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleMemberSelect = (id: string) => {
+    setSelectedMemberId(id);
+    const member = members.find((m) => m.id === id);
+    if (member) {
+      setValue("donorName", member.name);
+      setValue("donorPhone", member.phone || "");
+    }
+  };
 
   const onSubmit = async (data: CreateTransactionInput) => {
     setServerError(null);
@@ -60,24 +96,40 @@ export function CreateTransactionForm({
     }
 
     setSuccessMsg(`Successfully recorded! Receipt: ${res.data?.receiptNumber}`);
-    reset();
+    reset({
+      type: "INCOME",
+      paymentMethod: "CASH",
+      category: "",
+      date: new Date().toISOString().split("T")[0],
+    });
     if (onSuccess) onSuccess();
   };
 
   return (
-    <div className="bg-white border border-sage-200/80 rounded-2xl p-6 sm:p-8 shadow-[var(--shadow-card)] max-w-xl mx-auto font-body">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-sage-100 flex items-center justify-center text-sage-700">
-          <Receipt size={20} />
+    <div>
+      <div className="mb-6 flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-sage-100 flex items-center justify-center text-sage-700">
+            <Receipt size={20} />
+          </div>
+          <div>
+            <h2 className="font-heading text-xl font-bold text-ink">
+              Record Transaction
+            </h2>
+            <p className="text-xs text-ink-soft">
+              Add mosque income or expense entry with auto-receipting.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="font-heading text-xl font-bold text-ink">
-            Record Transaction
-          </h2>
-          <p className="text-xs text-ink-soft">
-            Add mosque income or expense entry with auto-receipting.
-          </p>
-        </div>
+        {onCancel && (
+          <button
+            onClick={onCancel}
+            aria-label="Close"
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
 
       {serverError && (
@@ -99,7 +151,10 @@ export function CreateTransactionForm({
         <div className="grid grid-cols-2 gap-3 p-1 bg-sage-50 rounded-xl border border-sage-200/60">
           <button
             type="button"
-            onClick={() => setValue("type", "INCOME")}
+            onClick={() => {
+              setValue("type", "INCOME");
+              setValue("category", "");
+            }}
             className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
               currentType === "INCOME"
                 ? "bg-white text-sage-700 shadow-sm border border-sage-200/80 font-semibold"
@@ -112,7 +167,10 @@ export function CreateTransactionForm({
 
           <button
             type="button"
-            onClick={() => setValue("type", "EXPENSE")}
+            onClick={() => {
+              setValue("type", "EXPENSE");
+              setValue("category", "");
+            }}
             className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
               currentType === "EXPENSE"
                 ? "bg-white text-rose-700 shadow-sm border border-sage-200/80 font-semibold"
@@ -133,16 +191,18 @@ export function CreateTransactionForm({
             >
               Category <span className="text-destructive">*</span>
             </Label>
-            <Input
+            <select
               id="category"
-              placeholder={
-                currentType === "INCOME"
-                  ? "e.g. Friday Collection"
-                  : "e.g. Electricity Bill"
-              }
-              className="h-11 rounded-xl border-sage-200 text-ink focus-visible:ring-sage-400/20"
+              className="w-full h-11 px-3 rounded-xl border border-sage-200 text-sm bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage-400/20"
               {...register("category")}
-            />
+            >
+              <option value="">Select category</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
             {errors.category && (
               <p className="text-xs text-destructive">
                 {errors.category.message}
@@ -170,29 +230,68 @@ export function CreateTransactionForm({
           </div>
         </div>
 
-        {/* Payment Method */}
-        <div className="space-y-1.5">
-          <Label
-            htmlFor="paymentMethod"
-            className="text-xs font-semibold text-ink"
-          >
-            Payment Method
-          </Label>
-          <select
-            id="paymentMethod"
-            className="w-full h-11 px-3 rounded-xl border border-sage-200 text-sm bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage-400/20"
-            {...register("paymentMethod")}
-          >
-            <option value="CASH">Cash</option>
-            <option value="BKASH">bKash Merchant</option>
-            <option value="NAGAD">Nagad</option>
-            <option value="BANK_TRANSFER">Bank Transfer</option>
-          </select>
+        {/* Payment Method & Date */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <Label
+              htmlFor="paymentMethod"
+              className="text-xs font-semibold text-ink"
+            >
+              Payment Method
+            </Label>
+            <select
+              id="paymentMethod"
+              className="w-full h-11 px-3 rounded-xl border border-sage-200 text-sm bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage-400/20"
+              {...register("paymentMethod")}
+            >
+              {PAYMENT_METHODS.map((method) => (
+                <option key={method.value} value={method.value}>
+                  {method.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="date" className="text-xs font-semibold text-ink">
+              Date
+            </Label>
+            <input
+              id="date"
+              type="date"
+              className="w-full h-11 px-3 rounded-xl border border-sage-200 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-sage-400/20"
+              {...register("date")}
+            />
+          </div>
         </div>
 
         {/* Optional Donor / Payer Details (Shown mainly for Income) */}
         {currentType === "INCOME" && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-sage-100">
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label
+                htmlFor="memberDonor"
+                className="text-xs font-semibold text-ink-soft"
+              >
+                Select Existing Member{" "}
+                <span className="text-ink-faint">(Optional)</span>
+              </Label>
+              <select
+                id="memberDonor"
+                value={selectedMemberId}
+                onChange={(e) => handleMemberSelect(e.target.value)}
+                className="w-full h-11 px-3 rounded-xl border border-sage-200 text-sm bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage-400/20"
+              >
+                <option value="">Type manually or select a mosque member</option>
+                {members.map((member) => (
+                  <option key={member.id} value={member.id}>
+                    {member.name}
+                    {member.phone ? ` — ${member.phone}` : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="space-y-1.5">
               <Label
                 htmlFor="donorName"
@@ -242,20 +341,32 @@ export function CreateTransactionForm({
           />
         </div>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full h-11 mt-4 rounded-xl bg-sage-600 text-white font-medium hover:bg-sage-700 transition-colors shadow-sm flex items-center justify-center gap-2"
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 size={16} className="animate-spin" />
-              <span>Recording Transaction...</span>
-            </>
-          ) : (
-            <span>Save Transaction Entry</span>
+        <div className="flex justify-end gap-2 pt-4 border-t border-sage-100">
+          {onCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              className="text-slate-600"
+            >
+              Cancel
+            </Button>
           )}
-        </Button>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-sage-600 text-white font-medium hover:bg-sage-700 transition-colors shadow-sm flex items-center justify-center gap-2"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                <span>Recording Transaction...</span>
+              </>
+            ) : (
+              <span>Save Transaction Entry</span>
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );

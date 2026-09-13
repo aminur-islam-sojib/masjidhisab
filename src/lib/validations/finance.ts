@@ -8,19 +8,13 @@ export const createTransactionSchema = z.object({
   category: z.string().min(2, "Category is required").trim(),
   amount: z.number().positive("Amount must be greater than zero"),
   paymentMethod: z.enum(["CASH", "BKASH", "NAGAD", "BANK_TRANSFER"]),
-  description: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim()),
-  donorName: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim()),
-  donorPhone: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim()),
+  description: z.string().optional(),
+  donorName: z.string().optional(),
+  donorPhone: z.string().optional(),
   date: z.string().optional(), // Date string from input field
 });
 
 export type CreateTransactionInput = z.infer<typeof createTransactionSchema>;
+
+export const updateTransactionSchema = createTransactionSchema;
+export type UpdateTransactionInput = z.infer<typeof updateTransactionSchema>;

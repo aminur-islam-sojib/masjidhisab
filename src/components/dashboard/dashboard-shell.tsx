@@ -4,6 +4,7 @@
 import * as React from "react";
 import { Menu } from "lucide-react";
 import { AppSidebar } from "./app-sidebar";
+import { NotificationBell } from "./notices/notification-bell";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -60,6 +61,7 @@ export function DashboardShell({
           </div>
 
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sage-100 text-sage-700 text-xs font-medium">
               <span className="w-2 h-2 rounded-full bg-sage-500 animate-pulse" />
               <span className="hidden sm:inline">Active Workspace</span>

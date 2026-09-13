@@ -16,7 +16,7 @@ export const addMemberSchema = z.object({
   phone: z.string().optional(),
   role: z.enum([UserRole.MEMBER, UserRole.COMMITTEE_MEMBER]),
   familyCount: z.number().int().min(0).optional(),
-  family: z.array(familyMemberSchema).default([]),
+  family: z.array(familyMemberSchema).optional(),
 });
 
 export const updateMemberSchema = z.object({
@@ -24,7 +24,7 @@ export const updateMemberSchema = z.object({
   phone: z.string().optional(),
   role: z.enum([UserRole.MEMBER, UserRole.COMMITTEE_MEMBER]),
   familyCount: z.number().int().min(0).optional(),
-  family: z.array(familyMemberSchema).default([]),
+  family: z.array(familyMemberSchema).optional(),
 });
 
 export type FamilyMemberInput = z.infer<typeof familyMemberSchema>;

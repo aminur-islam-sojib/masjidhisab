@@ -28,3 +28,26 @@ export async function getMosqueBySlug(slug: string) {
   if (!mosque) return null;
   return JSON.parse(JSON.stringify(mosque));
 }
+
+/**
+ * Fetches all active mosques for the public directory / feed.
+ */
+export async function getPublicMosques() {
+  await connectDB();
+
+  const mosques = await Mosque.find({ status: "ACTIVE" })
+    .select("name slug address capacity imamName establishedYear")
+    .sort({ name: 1 })
+    .lean();
+
+  return mosques.map((m) => ({
+    slug: m.slug,
+    name: m.name,
+    city: m.address?.city || "",
+    district: m.address?.district || "",
+    area: m.address?.area || "",
+    capacity: m.capacity,
+    imamName: m.imamName,
+    establishedYear: m.establishedYear,
+  }));
+}

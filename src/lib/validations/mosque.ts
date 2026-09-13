@@ -4,28 +4,16 @@ import { z } from "zod";
 export const updateMosqueSchema = z.object({
   name: z.string().min(2, "Mosque name is required").trim(),
   address: z.object({
-    area: z
-      .string()
-      .optional()
-      .transform((val) => val?.trim()),
+    area: z.string().optional(),
     city: z.string().min(1, "City is required").trim(),
     district: z.string().min(1, "District is required").trim(),
-    postalCode: z
-      .string()
-      .optional()
-      .transform((val) => val?.trim()),
+    postalCode: z.string().optional(),
   }),
   contact: z
     .object({
-      phone: z
-        .string()
-        .optional()
-        .transform((val) => val?.trim()),
+      phone: z.string().optional(),
       email: z.string().email("Invalid email").optional().or(z.literal("")),
-      whatsapp: z
-        .string()
-        .optional()
-        .transform((val) => val?.trim()),
+      whatsapp: z.string().optional(),
     })
     .optional(),
   socialLinks: z
@@ -40,11 +28,10 @@ export const updateMosqueSchema = z.object({
     .min(1000)
     .max(new Date().getFullYear())
     .optional(),
-  imamName: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim()),
+  imamName: z.string().optional(),
   capacity: z.number().nonnegative().optional(),
+  profileImageUrl: z.string().url("Invalid image URL").optional(),
+  coverImageUrl: z.string().url("Invalid image URL").optional(),
 });
 
 export type UpdateMosqueInput = z.infer<typeof updateMosqueSchema>;

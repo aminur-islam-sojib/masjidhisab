@@ -132,7 +132,7 @@ export default function PrayersPage() {
                     </div>
                     <p className="text-lg font-bold mt-1">{prayer.azan}</p>
                     <p className="text-emerald-100 text-[11px]">
-                      Iqamah {prayer.iqamah}
+                      isaiah {prayer.iqamah}
                     </p>
                   </div>
                 ))}

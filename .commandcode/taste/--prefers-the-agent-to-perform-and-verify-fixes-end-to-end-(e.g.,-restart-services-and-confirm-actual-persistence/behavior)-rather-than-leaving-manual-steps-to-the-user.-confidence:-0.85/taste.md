@@ -1,0 +1,17 @@
+# - Prefers the agent to perform and verify fixes end-to-end (e.g., restart services and confirm actual persistence/behavior) rather than leaving manual steps to the user. Confidence: 0.85
+- Prefers the agent to perform and verify fixes end-to-end (e.g., restart services and confirm actual persistence/behavior) rather than leaving manual steps to the user. Confidence: 0.85
+- Dislikes repeated mistakes; expects root-cause resolution and verified working results before a task is reported done. Confidence: 0.75
+- Prefers add/edit forms (e.g., add member, edit member) to appear as popups/modals rather than inline forms or separate pages. Confidence: 0.85
+- For gender/sex fields, wants only two options (men and women) — no "Other" or additional values. Confidence: 0.85
+- Wants UIs to be responsive across all device sizes (mobile, tablet, desktop) — e.g., card layouts on small screens vs. tables on desktop, full-width buttons on mobile, responsive padding. Confidence: 0.8
+- Prefers incremental/scoped delivery: build the core feature now and defer advanced extras (e.g., bKash/donation flows) until explicitly requested later. Confidence: 0.8
+- Prefers dashboards to include data visualizations such as monthly trend charts and category breakdown charts. Confidence: 0.7
+- Prefers visually asymmetric dashboard layouts — e.g., one large primary card with a chart plus two stacked secondary cards — over a row of equal-size cards. Confidence: 0.7
+- Wants UIs to look like a polished, production-grade "real app" (professional design) rather than basic or placeholder styling. Confidence: 0.7
+- Prefers compact, reasonably sized UI elements (cards, charts, text/icons) — dislikes oversized components that dominate the page. Confidence: 0.7
+- Prefers the agent to research the existing codebase, available data/actions, and what's feasible before proposing or building new features (research-first workflow). Confidence: 0.7
+- Prefers public-facing content (e.g., mosque directory and mosque details) to be viewable by any visitor without logging in. Confidence: 0.8
+- Prefers image uploads to be hosted on a third-party service (ImgBB) and store the returned public URL, rather than managing local file storage. Confidence: 0.6
+- Comfortable sharing third-party API keys/secrets inline in chat and expects the agent to wire them into the app's integrations. Confidence: 0.55
+- Prefers comprehensive error fixing: when asked to fix errors, run the full project type-check/build and resolve all type errors across the codebase, not just those in the immediately touched files. Confidence: 0.7
+- Prefers uploaded images (e.g., profile/cover) to persist and always remain visible as the current image in their section after reload, with the admin able to view and replace the current profile/cover image on the live site. Confidence: 0.7

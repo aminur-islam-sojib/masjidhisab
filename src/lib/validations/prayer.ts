@@ -35,6 +35,6 @@ export const updatePrayerSettingsSchema = z.object({
     .optional(),
 });
 
-export type UpdatePrayerSettingsInput = z.infer<
+export type UpdatePrayerSettingsInput = z.input<
   typeof updatePrayerSettingsSchema
 >;

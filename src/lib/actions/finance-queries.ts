@@ -13,6 +13,10 @@ export async function getTransactionsAction(
     limit?: number;
     type?: string;
     search?: string;
+    category?: string;
+    paymentMethod?: string;
+    dateFrom?: string;
+    dateTo?: string;
   } = {},
 ) {
   try {
@@ -27,6 +31,24 @@ export async function getTransactionsAction(
 
     if (params.type && params.type !== "ALL") {
       query.type = params.type;
+    }
+
+    if (params.category && params.category !== "ALL") {
+      query.category = params.category;
+    }
+
+    if (params.paymentMethod && params.paymentMethod !== "ALL") {
+      query.paymentMethod = params.paymentMethod;
+    }
+
+    if (params.dateFrom || params.dateTo) {
+      query.date = {};
+      if (params.dateFrom) {
+        query.date.$gte = new Date(`${params.dateFrom}T00:00:00.000Z`);
+      }
+      if (params.dateTo) {
+        query.date.$lte = new Date(`${params.dateTo}T23:59:59.999Z`);
+      }
     }
 
     if (params.search) {
@@ -56,7 +78,9 @@ export async function getTransactionsAction(
           amount: t.amount,
           paymentMethod: t.paymentMethod,
           receiptNumber: t.receiptNumber,
-          donorName: t.donorName || "N/A",
+          donorName: t.donorName || "",
+          donorPhone: t.donorPhone || "",
+          description: t.description || "",
           date: new Date(t.date).toISOString().split("T")[0],
         })),
         totalPages: Math.ceil(total / limit) || 1,

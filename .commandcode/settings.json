@@ -71,7 +71,12 @@
       "Shell(cd /home/sojibahmed/Projects/masjidhisab; echo \"tailwindcss: $(node -e \"console.log(require('./node_modules/tailwindcss/package.json').version)\")\"; echo \"postcss: $(node -e \"console.log(require('./node_modules/@tailwindcss/postcss/package.json').version)\")\")",
       "Shell(cd /home/sojibahmed/Projects/masjidhisab for p in tailwindcss @tailwindcss/postcss @tailwindcss/node @tailwindcss/oxide; do echo \"$p: $(node -e \"console.log(require('./node_modules/$p/package.json').version)\" 2>/dev/null || echo MISSING)\"; done)",
       "Shell(cd /home/sojibahmed/Projects/masjidhisab cat > css-test.mjs <<'EOF' import postcss from \"postcss\"; import tailwind from \"@tailwindcss/postcss\"; import { readFileSync } from \"node:fs\"; const css = readFileSync(\"./src/app/globals.css\", \"utf8\"); try { const result = await postcss([tailwind()]).process(css, { from: \"./src/app/globals.css\" }); console.log(\"OK, output length:\", result.css.length); } catch (e) { console.error(\"ERROR:\", e.message); } EOF node css-test.mjs rm -f css-test.mjs)",
-      "Shell(git:*)"
+      "Shell(git:*)",
+      "Shell(npx eslint src/components/dashboard/notices/notification-bell.tsx 2 >& 1)",
+      "Shell(npx eslint src/components/dashboard/notices/page.tsx src/components/dashboard/notices/notice-form.tsx src/components/dashboard/notices/delete-notice-dialog.tsx 2 >& 1)",
+      "Shell(npx eslint src/components/mosque/mosque-directory.tsx src/app/mosques/page.tsx src/app/m/[slug]/page.tsx 2 >& 1)",
+      "Shell(npx eslint src/components/dashboard/settings/general-settings-form.tsx src/app/(dashboard)/dashboard/settings/page.tsx src/lib/actions/upload.ts 2 >& 1)",
+      "Shell(npx eslint src/components/dashboard/settings/general-settings-form.tsx 2 >& 1)"
     ],
     "deny": [],
     "defaultMode": "default"

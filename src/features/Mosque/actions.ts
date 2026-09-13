@@ -76,7 +76,7 @@ export async function createMosqueAction(data: CreateMosqueInput) {
       slug: newMosque.slug,
     };
   } catch (err: unknown) {
-    return { error: err.message || "Failed to create mosque." };
+    return { error: (err as Error).message || "Failed to create mosque." };
   }
 }
 

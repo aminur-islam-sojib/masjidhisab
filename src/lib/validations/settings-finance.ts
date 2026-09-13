@@ -26,6 +26,6 @@ export const updateFinanceSettingsSchema = z.object({
   }),
 });
 
-export type UpdateFinanceSettingsInput = z.infer<
+export type UpdateFinanceSettingsInput = z.input<
   typeof updateFinanceSettingsSchema
 >;

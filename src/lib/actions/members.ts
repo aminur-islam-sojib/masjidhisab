@@ -40,7 +40,7 @@ export async function addMemberAction(input: AddMemberInput) {
       phone: validated.phone,
       role: validated.role,
       mosqueId,
-      family: validated.family,
+      family: validated.family ?? [],
       familyCount: validated.familyCount,
     });
 
@@ -120,7 +120,7 @@ export async function updateMemberAction(
     member.name = validated.name;
     member.phone = validated.phone;
     member.role = validated.role;
-    member.family = validated.family;
+    member.family = validated.family ?? [];
     member.familyCount = validated.familyCount;
     await member.save();
 

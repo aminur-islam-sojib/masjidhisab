@@ -15,7 +15,7 @@ import { PasswordStrength } from "./password-strength";
 import { RegisterInput, registerSchema } from "@/features/Auth/schema";
 import { registerAction } from "@/features/Auth/actions";
 import { UserRole } from "@/types/auth";
-import { EyeIcon } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { GoogleIcon } from "./brand-panel";
 
 function CheckmarkAnimation() {
@@ -252,7 +252,7 @@ export function RegisterForm() {
                     }
                     className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md text-ink-faint transition-colors hover:text-ink-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400"
                   >
-                    <EyeIcon open={showPassword} />
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 <PasswordStrength password={password} />

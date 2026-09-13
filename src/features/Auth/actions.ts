@@ -60,7 +60,10 @@ export async function registerAction(data: RegisterInput) {
     });
     return { success: true };
   } catch (err) {
-    console.error("🔴 DATABASE CREATION ERROR:", err?.message || err);
+    console.error(
+      "🔴 DATABASE CREATION ERROR:",
+      err instanceof Error ? err.message : err,
+    );
     return { error: "Failed to create user." };
   }
 }

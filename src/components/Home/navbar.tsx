@@ -32,6 +32,9 @@ export async function Navbar() {
           <a href="#how" className="hover:text-sage-700 transition-colors">
             How it works
           </a>
+          <Link href="/mosques" className="hover:text-sage-700 transition-colors">
+            Mosques
+          </Link>
           <a href="#pricing" className="hover:text-sage-700 transition-colors">
             Pricing
           </a>

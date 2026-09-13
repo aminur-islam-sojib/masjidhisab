@@ -304,7 +304,10 @@ export function CreateMosqueForm() {
                         type="number"
                         placeholder="e.g. 1500"
                         className="pl-10 h-12 rounded-xl border-sage-200 text-ink placeholder:text-ink-faint focus-visible:border-sage-400 focus-visible:ring-sage-400/20"
-                        {...register("capacity")}
+                        {...register("capacity", {
+                          setValueAs: (v) =>
+                            v === "" ? undefined : Number(v),
+                        })}
                       />
                     </div>
                   </div>
