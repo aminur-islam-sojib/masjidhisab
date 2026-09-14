@@ -7,6 +7,7 @@ import { MoonStar, ChevronRight, LogOut, Building2, X } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { navigationItems } from "@/lib/dashboard-navigation";
 import { AppSidebarProps } from "@/types/dashboard";
+import UserProfileDropdown from "../Home/ui/user-profile-dropdown";
 
 export function AppSidebar({
   mosqueName = "My Mosque",
@@ -42,7 +43,7 @@ export function AppSidebar({
         {/* Top Branding & Close Button */}
         <div>
           <div className="h-16 px-5 border-b border-sage-100 flex items-center justify-between">
-            <Link href="/dashboard" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-2.5">
               <span className="grid place-items-center w-8 h-8 rounded-xl bg-sage-600 text-white shadow-sm">
                 <MoonStar size={18} />
               </span>
@@ -108,7 +109,7 @@ export function AppSidebar({
 
         {/* User Profile Footer */}
         <div className="p-3 border-t border-sage-100 bg-white">
-          <div className="flex items-center justify-between p-2 rounded-xl">
+          {/* <div className="flex items-center justify-between p-2 rounded-xl">
             <div className="flex items-center gap-2.5 overflow-hidden">
               <div className="w-8 h-8 rounded-full bg-sage-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
                 {userName ? userName.charAt(0).toUpperCase() : "U"}
@@ -129,8 +130,9 @@ export function AppSidebar({
               className="p-1.5 rounded-lg text-ink-faint hover:text-destructive hover:bg-red-50 transition-colors"
             >
               <LogOut size={16} />
-            </button>
-          </div>
+            </button> 
+          </div> */}
+            <UserProfileDropdown/>
         </div>
       </aside>
     </>

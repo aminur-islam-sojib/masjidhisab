@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.11.3",
@@ -16,6 +15,7 @@
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cn": "^0.3.0",
     "framer-motion": "^13.0.0",
     "lucide-react": "^1.30.0",
     "mongodb": "^7.5.0",

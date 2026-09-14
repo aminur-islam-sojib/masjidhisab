@@ -13,7 +13,7 @@ interface ModalProps {
 export function Modal({ open, onClose, title, children }: ModalProps) {
   if (!open) return null;
 
-  return (
+  return   (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-ink/40 backdrop-blur-xs"
@@ -35,6 +35,8 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         )}
         <div className="p-4 sm:p-6">{children}</div>
       </div>
-    </div>
+    </div> 
+   
   );
+   document.body
 }
