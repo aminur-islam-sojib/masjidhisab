@@ -11,16 +11,13 @@ import {
 import { updatePrayerSettingsAction } from "@/lib/actions/prayer";
 import { getMosqueSettingsAction } from "@/lib/actions/mosque";
 import {
-  Clock,
-  Globe,
+ 
   CheckCircle2,
   AlertCircle,
   Loader2,
   SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function PrayerSettingsForm() {
   const [isPending, startTransition] = useTransition();
@@ -33,7 +30,6 @@ export default function PrayerSettingsForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<UpdatePrayerSettingsInput>({
     resolver: zodResolver(updatePrayerSettingsSchema),
     defaultValues: {
@@ -73,6 +69,7 @@ export default function PrayerSettingsForm() {
 
   useEffect(() => {
     loadSettings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function onSubmit(data: UpdatePrayerSettingsInput) {
