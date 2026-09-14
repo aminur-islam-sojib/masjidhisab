@@ -34,7 +34,6 @@ export default function FinanceSettingsForm() {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<UpdateFinanceSettingsInput>({
     resolver: zodResolver(updateFinanceSettingsSchema),
     defaultValues: {
