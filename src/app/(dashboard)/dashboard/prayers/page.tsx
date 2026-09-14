@@ -9,7 +9,7 @@ import {
 } from "@/lib/prayer-times";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
-import { PrayerScheduleSettingsForm } from "@/components/dashboard/prayers/prayer-schedule-settings-form";
+import { PrayerScheduleSettingsForm } from "./prayer-schedule-settings-form";
 
 function formatCountdown(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));

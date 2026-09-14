@@ -11,6 +11,7 @@ import { Users, Shield, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function TeamSettingsList() {
   const [isPending, startTransition] = useTransition();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [members, setMembers] = useState<any[]>([]);
   const [message, setMessage] = useState<{
     success: boolean;

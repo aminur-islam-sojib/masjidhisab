@@ -22,8 +22,8 @@ import { getMosqueSettingsAction } from "@/lib/actions/mosque";
 import { FinanceAnalytics, Transaction } from "@/types/transaction";
 import { Member } from "@/types/member";
 import { DaySchedule } from "@/lib/prayer-times";
-import { MonthlyTrendChart } from "@/components/dashboard/finance/monthly-trend-chart";
-import { CategoryBreakdown } from "@/components/dashboard/finance/category-breakdown";
+import { MonthlyTrendChart } from "@/app/(dashboard)/dashboard/finance/monthly-trend-chart";
+import { CategoryBreakdown } from "@/app/(dashboard)/dashboard/finance/category-breakdown";
 import { NextPrayerCard } from "./next-prayer-card";
 
 type StatTone = "emerald" | "rose" | "slate";

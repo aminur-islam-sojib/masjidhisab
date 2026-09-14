@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { Users } from "lucide-react";
-import { MembersList } from "@/components/dashboard/members/members-list";
-import { AddMemberForm } from "@/components/dashboard/members/add-member-form";
+import { MembersList } from "@/app/(dashboard)/dashboard/members/members-list";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
+import { AddMemberForm } from "./add-member-form";
 
 export default function MembersPage() {
   const [showAdd, setShowAdd] = React.useState(false);

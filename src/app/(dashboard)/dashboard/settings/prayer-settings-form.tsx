@@ -229,7 +229,7 @@ export default function PrayerSettingsForm() {
         </div>
       </div>
 
-      <div className="flex justify-end pt-4 border-t">
+      <div className="flex justify-end pt-4 border-t border-slate-200">
         <Button
           type="submit"
           disabled={isPending}

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // app/dashboard/settings/_components/general-settings-form.tsx
 "use client";
 
@@ -181,6 +182,7 @@ export default function GeneralSettingsForm() {
           <p className="text-sm font-medium text-slate-700 mb-2">Cover Image</p>
           <div className="relative h-40 rounded-xl overflow-hidden bg-white border border-slate-200">
             {coverPreview ? (
+             
               <img
                 src={coverPreview}
                 alt="Cover preview"
@@ -357,7 +359,7 @@ export default function GeneralSettingsForm() {
         </div>
       </div>
 
-      <div className="flex justify-end pt-4 border-t">
+      <div className="flex justify-end pt-4 border-t border-slate-200">
         <button
           type="submit"
           disabled={isPending || uploading !== null}

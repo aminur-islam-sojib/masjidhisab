@@ -1,10 +1,10 @@
 "use client";
 import * as React from "react";
 import { Building2, Wallet, Clock, Users } from "lucide-react";
-import GeneralSettingsForm from "@/components/dashboard/settings/general-settings-form";
-import FinanceSettingsForm from "@/components/dashboard/settings/finance-settings-form";
-import PrayerSettingsForm from "@/components/dashboard/settings/prayer-settings-form";
-import TeamSettingsList from "@/components/dashboard/settings/team-settings-list";
+import GeneralSettingsForm from "@/app/(dashboard)/dashboard/settings/general-settings-form";
+import PrayerSettingsForm from "@/app/(dashboard)/dashboard/settings/prayer-settings-form";
+import TeamSettingsList from "@/app/(dashboard)/dashboard/settings/team-settings-list";
+import FinanceSettingsForm from "./finance-settings-form";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = React.useState("general");

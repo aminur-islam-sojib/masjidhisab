@@ -11,7 +11,7 @@ import {
 import { updateFinanceSettingsAction } from "@/lib/actions/settings-finance";
 import { getMosqueSettingsAction } from "@/lib/actions/mosque";
 import {
-  Wallet,
+ 
   Smartphone,
   Landmark,
   Plus,
@@ -251,7 +251,7 @@ export default function FinanceSettingsForm() {
         </div>
       </div>
 
-      <div className="flex justify-end pt-4 border-t">
+      <div className="flex justify-end pt-4 border-t border-slate-200">
         <Button
           type="submit"
           disabled={isPending}

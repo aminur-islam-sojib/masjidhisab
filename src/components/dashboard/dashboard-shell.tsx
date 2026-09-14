@@ -4,7 +4,7 @@
 import * as React from "react";
 import { Menu } from "lucide-react";
 import { AppSidebar } from "./app-sidebar";
-import { NotificationBell } from "./notices/notification-bell";
+import { NotificationBell } from "@/app/(dashboard)/dashboard/notices/notification-bell";
 
 interface DashboardShellProps {
   children: React.ReactNode;
